@@ -46,38 +46,67 @@ theme_override_constants/separation = 1
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="MenuBar" type="MenuBar" parent="MarginContainer/VBoxContainer/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="MenuBar" type="MenuBar" parent="MarginContainer/VBoxContainer/PanelContainer/HBoxContainer"]
 layout_mode = 2
 flat = true
 
-[node name="File" type="PopupMenu" parent="MarginContainer/VBoxContainer/PanelContainer/MenuBar"]
+[node name="File" type="PopupMenu" parent="MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/MenuBar"]
 
-[node name="Edit" type="PopupMenu" parent="MarginContainer/VBoxContainer/PanelContainer/MenuBar"]
+[node name="Edit" type="PopupMenu" parent="MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/MenuBar"]
 
-[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 theme_override_icons/grabber = SubResource("PlaceholderTexture2D_bmapq")
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HSplitContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/HSplitContainer"]
 custom_minimum_size = Vector2(256, 0)
 layout_mode = 2
 
-[node name="Tree" type="Tree" parent="MarginContainer/VBoxContainer/HSplitContainer/PanelContainer"]
+[node name="Tree" type="Tree" parent="MarginContainer/VBoxContainer/HBoxContainer/HSplitContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="VSplitContainer" type="VSplitContainer" parent="MarginContainer/VBoxContainer/HSplitContainer"]
+[node name="VSplitContainer" type="VSplitContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/HSplitContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 1
 theme_override_icons/grabber = SubResource("PlaceholderTexture2D_xw7bm")
 
-[node name="CodeEdit" type="CodeEdit" parent="MarginContainer/VBoxContainer/HSplitContainer/VSplitContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/HSplitContainer/VSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/HSplitContainer/VSplitContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TabBar" type="TabBar" parent="MarginContainer/VBoxContainer/HBoxContainer/HSplitContainer/VSplitContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+tab_close_display_policy = 1
+drag_to_rearrange_enabled = true
+tab_count = 1
+tab_0/title = "untitled.gs"
+
+[node name="CodeEdit" type="CodeEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/HSplitContainer/VSplitContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_fonts/font = SubResource("SystemFont_3hnmt")
 theme_override_font_sizes/font_size = 18
+drag_and_drop_selection_enabled = false
 middle_mouse_paste_enabled = false
 highlight_all_occurrences = true
 highlight_current_line = true
@@ -96,10 +125,10 @@ indent_automatic = true
 auto_brace_completion_enabled = true
 auto_brace_completion_highlight_matching = true
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/VSplitContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/HSplitContainer/VSplitContainer"]
 layout_mode = 2
 
-[node name="TextEdit" type="TextEdit" parent="MarginContainer/VBoxContainer/HSplitContainer/VSplitContainer/PanelContainer"]
+[node name="TextEdit" type="TextEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/HSplitContainer/VSplitContainer/PanelContainer"]
 custom_minimum_size = Vector2(0, 128)
 layout_mode = 2
 editable = false
