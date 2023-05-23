@@ -14,7 +14,7 @@ config/name="Tavern IDE"
 run/main_scene="res://Scenes/Application.tscn"
 config/features=PackedStringArray("4.0", "C#", "Forward Plus")
 run/low_processor_mode=true
-boot_splash/bg_color=Color(0, 0, 0, 0)
+boot_splash/bg_color=Color(0.145098, 0.145098, 0.168627, 1)
 boot_splash/show_image=false
 config/icon="res://icon.svg"
 

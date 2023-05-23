@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dw0lh58agqyiw"]
+[gd_scene load_steps=8 format=3 uid="uid://dw0lh58agqyiw"]
 
 [ext_resource type="Texture2D" uid="uid://bgxldntiwqp78" path="res://Assets/Icons/FolderFileProject.svg" id="1_2qqkd"]
 [ext_resource type="PackedScene" uid="uid://gxcyf1w4uyxk" path="res://Scenes/CodeEditor.tscn" id="1_667bh"]
 [ext_resource type="Script" path="res://Scenes/Application.cs" id="1_usnfg"]
+[ext_resource type="FontFile" uid="uid://c1fnob5gi3mql" path="res://Assets/Fonts/JetBrains Mono/JETBRAINSMONO-REGULAR.TTF" id="4_seb1l"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y8x25"]
 bg_color = Color(0.0627451, 0.0627451, 0.0705882, 1)
@@ -142,6 +143,7 @@ layout_mode = 2
 [node name="Console" type="TextEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/ConsoleContainer"]
 custom_minimum_size = Vector2(0, 128)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("4_seb1l")
 editable = false
 middle_mouse_paste_enabled = false
 scroll_smooth = true
