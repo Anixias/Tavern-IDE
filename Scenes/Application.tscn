@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dw0lh58agqyiw"]
+[gd_scene load_steps=7 format=3 uid="uid://dw0lh58agqyiw"]
 
 [ext_resource type="Texture2D" uid="uid://bgxldntiwqp78" path="res://Assets/Icons/FolderFileProject.svg" id="1_2qqkd"]
 [ext_resource type="PackedScene" uid="uid://gxcyf1w4uyxk" path="res://Scenes/CodeEditor.tscn" id="1_667bh"]
+[ext_resource type="Script" path="res://Scenes/Application.cs" id="1_usnfg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y8x25"]
 bg_color = Color(0.0627451, 0.0627451, 0.0705882, 1)
@@ -17,6 +18,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_usnfg")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -124,12 +126,14 @@ theme_override_constants/separation = 1
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/EmptyContainer/CodeEditorContainer"]
 layout_mode = 2
 
-[node name="TabBar" type="TabBar" parent="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/EmptyContainer/CodeEditorContainer/PanelContainer"]
+[node name="FileTabBar" type="TabBar" parent="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/EmptyContainer/CodeEditorContainer/PanelContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 tab_close_display_policy = 1
 drag_to_rearrange_enabled = true
 
-[node name="CodeEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/EmptyContainer/CodeEditorContainer" instance=ExtResource("1_667bh")]
+[node name="CodeEditor" parent="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/EmptyContainer/CodeEditorContainer" instance=ExtResource("1_667bh")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="ConsoleContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer"]

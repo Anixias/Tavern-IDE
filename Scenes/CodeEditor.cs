@@ -1,5 +1,6 @@
 using Godot;
-using System;
+
+namespace Tavern;
 
 public partial class CodeEditor : CodeEdit
 {
