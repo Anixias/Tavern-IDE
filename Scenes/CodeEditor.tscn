@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://gxcyf1w4uyxk"]
+
+[ext_resource type="FontFile" uid="uid://ckl2faykk27my" path="res://Assets/Fonts/Cascadia Code/CASCADIACODE.TTF" id="1_qh300"]
+[ext_resource type="Script" path="res://Scenes/CodeEditor.cs" id="2_5jkyb"]
+
+[node name="CodeEdit" type="CodeEdit"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("1_qh300")
+theme_override_font_sizes/font_size = 18
+drag_and_drop_selection_enabled = false
+middle_mouse_paste_enabled = false
+highlight_all_occurrences = true
+highlight_current_line = true
+scroll_smooth = true
+scroll_past_end_of_file = true
+minimap_draw = true
+minimap_width = 100
+caret_blink = true
+symbol_lookup_on_click = true
+line_folding = true
+gutters_draw_breakpoints_gutter = true
+gutters_draw_line_numbers = true
+gutters_draw_fold_gutter = true
+code_completion_enabled = true
+indent_automatic = true
+auto_brace_completion_enabled = true
+auto_brace_completion_highlight_matching = true
+script = ExtResource("2_5jkyb")
+
+[connection signal="gui_input" from="." to="." method="OnGuiInput"]
