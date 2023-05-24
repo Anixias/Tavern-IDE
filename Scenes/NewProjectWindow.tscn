@@ -1,0 +1,148 @@
+[gd_scene load_steps=8 format=3 uid="uid://ducr022q8jkue"]
+
+[ext_resource type="Texture2D" uid="uid://bkcevjfmm5v4l" path="res://Assets/Icons/Archive.svg" id="1_8emi0"]
+[ext_resource type="Script" path="res://Scenes/NewProjectWindow.cs" id="1_msh7n"]
+[ext_resource type="FontFile" uid="uid://c3jhawl8py3hw" path="res://Assets/Fonts/Segoe UI/SEGOEUIB.TTF" id="2_5ixi8"]
+[ext_resource type="Texture2D" uid="uid://bgxldntiwqp78" path="res://Assets/Icons/FolderFileProject.svg" id="3_sttqe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ncc4n"]
+bg_color = Color(0.0627451, 0.0627451, 0.0705882, 1)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_tlf7n"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_ipln3"]
+
+[node name="NewProjectWindow" type="Window"]
+initial_position = 2
+title = "New Project"
+size = Vector2i(640, 480)
+transient = true
+exclusive = true
+unresizable = true
+script = ExtResource("1_msh7n")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ncc4n")
+
+[node name="HSplitContainer" type="HSplitContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 1
+theme_override_icons/grabber = SubResource("PlaceholderTexture2D_tlf7n")
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/HSplitContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/HSplitContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/HSplitContainer/PanelContainer/MarginContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="TemplateContainer" type="VBoxContainer" parent="PanelContainer/HSplitContainer/PanelContainer/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EmptyProjectButton" type="Button" parent="PanelContainer/HSplitContainer/PanelContainer/MarginContainer/ScrollContainer/TemplateContainer"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_constants/h_separation = 0
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_ipln3")
+text = "Empty Project"
+icon = ExtResource("1_8emi0")
+
+[node name="PanelContainer2" type="PanelContainer" parent="PanelContainer/HSplitContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/HSplitContainer/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HSplitContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="PanelContainer/HSplitContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5ixi8")
+text = "Empty Project"
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/HSplitContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+columns = 2
+
+[node name="NameLabel" type="Label" parent="PanelContainer/HSplitContainer/PanelContainer2/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Project Name"
+
+[node name="NameLineEdit" type="LineEdit" parent="PanelContainer/HSplitContainer/PanelContainer2/MarginContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"BorderedLineEdit"
+
+[node name="DirectoryLabel" type="Label" parent="PanelContainer/HSplitContainer/PanelContainer2/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Project Directory"
+
+[node name="DirectoryLineEdit" type="LineEdit" parent="PanelContainer/HSplitContainer/PanelContainer2/MarginContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"BorderedLineEdit"
+
+[node name="BrowseButton" type="Button" parent="PanelContainer/HSplitContainer/PanelContainer2/MarginContainer/VBoxContainer/GridContainer/DirectoryLineEdit"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -22.0
+offset_top = -10.0
+offset_right = -2.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+icon = ExtResource("3_sttqe")
+clip_text = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/HSplitContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+alignment = 2
+
+[node name="CreateButton" type="Button" parent="PanelContainer/HSplitContainer/PanelContainer2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_type_variation = &"AcceptButton"
+text = "Create"
+
+[node name="CancelButton" type="Button" parent="PanelContainer/HSplitContainer/PanelContainer2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_type_variation = &"DefaultButton"
+text = "Cancel"
+
+[connection signal="close_requested" from="." to="." method="OnCloseRequested"]
+[connection signal="pressed" from="PanelContainer/HSplitContainer/PanelContainer2/MarginContainer/HBoxContainer/CancelButton" to="." method="OnCancelButtonPressed"]
