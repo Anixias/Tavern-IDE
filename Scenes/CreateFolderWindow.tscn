@@ -1,0 +1,64 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqsb5nhv10gm8"]
+
+[ext_resource type="Script" path="res://Scenes/CreateFolderWindow.cs" id="1_1cpi7"]
+
+[node name="CreateFolderWindow" type="Window"]
+title = "Create Folder"
+size = Vector2i(400, 100)
+script = ExtResource("1_1cpi7")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Folder Name"
+
+[node name="NameLineEdit" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"PrimaryLineEdit"
+middle_mouse_paste_enabled = false
+caret_blink = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="CreateButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"AcceptButton"
+disabled = true
+text = "Create"
+
+[node name="CancelButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_type_variation = &"DefaultButton"
+text = "Cancel"
+
+[connection signal="about_to_popup" from="." to="." method="OnAboutToPopup"]
+[connection signal="text_changed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/NameLineEdit" to="." method="OnNameLineEditTextChanged"]
+[connection signal="text_submitted" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/NameLineEdit" to="." method="OnNameLineEditTextSubmitted"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CreateButton" to="." method="OnCreateButtonPressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CancelButton" to="." method="OnCancelButtonPressed"]

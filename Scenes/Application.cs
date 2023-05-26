@@ -12,35 +12,51 @@ public partial class Application : Control
 	{
 		public CodeEditor CodeEditor { get; }
 		public int TabIndex { get; set; }
-		public string Path { get; }
 		
-		public OpenEditor(CodeEditor codeEditor, int tabIndex, string path)
+		public OpenEditor(CodeEditor codeEditor, int tabIndex)
 		{
 			CodeEditor = codeEditor;
 			TabIndex = tabIndex;
-			Path = path;
 		}
 	}
 
 	private int activeFileTab = -1;
 	private TabBar fileTabBar;
+	private TabContainer bottomTabContainer;
 	private Container codeEditorContainer;
 	private PackedScene codeEditorScene;
 	private readonly Dictionary<string, OpenEditor> openFiles = new();
-	private CodeEditor? currentCodeEditor;
+	private readonly List<TreeItem> treeItems = new();
+	private CodeEditor currentCodeEditor;
 	private Tree fileSystemTree;
 	private Project activeProject;
+	private Container fileInfoContainer;
 
 	private Texture2D iconFile;
 	private Texture2D iconFolderOpen;
 	private Texture2D iconFolderClosed;
+	private Button createFileButton;
+	private Button createFolderButton;
+	private CreateFileWindow createFileWindow;
+	private CreateFolderWindow createFolderWindow;
+	private ConfirmationDialog deleteConfirmationDialog;
+	private bool deleteFile;
+	private string deletePath;
 
 	public override void _Ready()
 	{
 		codeEditorContainer = GetNode<Container>("%CodeEditorContainer");
+		fileInfoContainer = GetNode<Container>("%FileInfoContainer");
 		fileTabBar = GetNode<TabBar>("%FileTabBar");
+		bottomTabContainer = GetNode<TabContainer>("%BottomTabContainer");
 		fileSystemTree = GetNode<Tree>("%FileSystemTree");
+		createFileButton = GetNode<Button>("%CreateFileButton");
+		createFolderButton = GetNode<Button>("%CreateFolderButton");
+		createFileWindow = GetNode<CreateFileWindow>("%CreateFileWindow");
+		createFolderWindow = GetNode<CreateFolderWindow>("%CreateFolderWindow");
+		deleteConfirmationDialog = GetNode<ConfirmationDialog>("%DeleteConfirmationDialog");
 		GetWindow().FilesDropped += OnFilesDropped;
+		bottomTabContainer.SetTabIcon(0, ResourceLoader.Load<Texture2D>("res://Assets/Icons/terminal.svg"));
 
 		codeEditorScene = ResourceLoader.Load<PackedScene>("res://Scenes/CodeEditor.tscn");
 		iconFile = ResourceLoader.Load<Texture2D>("res://Assets/Icons/file.svg");
@@ -79,13 +95,16 @@ public partial class Application : Control
 		
 		currentCodeEditor = codeEditor;
 		
-		openFiles.Add(path, new OpenEditor(codeEditor, fileTabBar.TabCount - 1, path));
+		openFiles.Add(path, new OpenEditor(codeEditor, fileTabBar.TabCount - 1));
 
 		if (!codeEditor.IsNodeReady())
 			await ToSignal(codeEditor, Node.SignalName.Ready);
 		
 		using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
 		codeEditor.Text = file.GetAsText();
+		
+		// @TODO Detect file info
+		fileInfoContainer.Visible = true;
 	}
 
 	private void ActivateEditor(CodeEditor codeEditor)
@@ -93,6 +112,7 @@ public partial class Application : Control
 		if (currentCodeEditor is not null && IsInstanceValid(currentCodeEditor))
 			currentCodeEditor.Hide();
 		
+		// @TODO Detect file info
 		currentCodeEditor = codeEditor;
 		codeEditor.Show();
 	}
@@ -103,6 +123,9 @@ public partial class Application : Control
 		{
 			await ToSignal(this, Node.SignalName.Ready);
 		}
+
+		fileSystemTree.Clear();
+		treeItems.Clear();
 		
 		activeProject = project;
 		if (project is null)
@@ -114,8 +137,10 @@ public partial class Application : Control
 	private void LoadDirectory(string directory, TreeItem parent = null)
 	{
 		var treeItem = fileSystemTree.CreateItem(parent);
+		treeItems.Add(treeItem);
 		treeItem.SetText(0, Path.GetFileName(directory));
 		treeItem.SetIcon(0, iconFolderOpen);
+		treeItem.SetMetadata(0, directory);
 
 		foreach (var childDirectory in Directory.GetDirectories(directory).OrderBy(Path.GetFileName))
 		{
@@ -124,14 +149,22 @@ public partial class Application : Control
 
 		foreach (var childFile in Directory.GetFiles(directory).OrderBy(Path.GetFileName))
 		{
-			var fileTreeItem = fileSystemTree.CreateItem(treeItem);
-			fileTreeItem.SetText(0, Path.GetFileName(childFile));
-			fileTreeItem.SetIcon(0, iconFile);
-			fileTreeItem.SetMetadata(0, childFile);
-			fileTreeItem.DisableFolding = true;
+			AddFileToTree(childFile, treeItem);
 		}
 		
 		treeItem.SetCollapsedRecursive(true);
+	}
+
+	private TreeItem AddFileToTree(string path, TreeItem parent)
+	{
+		var fileTreeItem = fileSystemTree.CreateItem(parent);
+		treeItems.Add(fileTreeItem);
+		fileTreeItem.SetText(0, Path.GetFileName(path));
+		fileTreeItem.SetIcon(0, iconFile);
+		fileTreeItem.SetMetadata(0, path);
+		fileTreeItem.DisableFolding = true;
+
+		return fileTreeItem;
 	}
 
 	private void OnFileSystemTreeItemActivated()
@@ -151,7 +184,16 @@ public partial class Application : Control
 			return;
 
 		var path = item.GetMetadata(0).AsString();
-		OpenFile(path);
+		if (Directory.Exists(path))
+		{
+			createFileButton.Disabled = false;
+			createFolderButton.Disabled = false;
+		}
+		else
+		{
+			createFileButton.Disabled = true;
+			createFolderButton.Disabled = true;
+		}
 	}
 
 	private void OnFileSystemTreeItemCollapsed(TreeItem item)
@@ -180,8 +222,8 @@ public partial class Application : Control
 	{
 		fileTabBar.RemoveTab(index);
 
-		string? deletePath = null;
-		string? openPath = null;
+		string deleteFilePath = null;
+		string openPath = null;
 		foreach (var (path, openEditor) in openFiles)
 		{
 			if (openEditor.TabIndex < index)
@@ -189,7 +231,7 @@ public partial class Application : Control
 
 			if (openEditor.TabIndex == index)
 			{
-				deletePath = path;
+				deleteFilePath = path;
 				openEditor.CodeEditor.QueueFree();
 			}
 			else
@@ -206,10 +248,12 @@ public partial class Application : Control
 		if (openPath is not null)
 			OpenFile(openPath);
 		
-		if (deletePath is null)
+		if (deleteFilePath is null)
 			return;
 		
-		openFiles.Remove(deletePath);
+		openFiles.Remove(deleteFilePath);
+		if (openFiles.Count == 0)
+			fileInfoContainer.Visible = false;
 	}
 
 	private void OnFileTabBarActiveTabRearranged(int newIndex)
@@ -244,5 +288,152 @@ public partial class Application : Control
 		}
 
 		activeFileTab = newIndex;
+	}
+
+	private void OnCreateFileButtonPressed()
+	{
+		var item = fileSystemTree.GetSelected();
+		if (item is null)
+			return;
+
+		var path = item.GetMetadata(0).AsString();
+		if (!Directory.Exists(path))
+			return;
+
+		createFileWindow.CurrentDirectory = path;
+		createFileWindow.PopupCentered();
+	}
+
+	private void OnCreateFileWindowSubmitted(string path)
+	{
+		using var file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
+		
+		// @TODO Load file template
+		
+		ReloadProject();
+		OpenFile(path);
+		
+		foreach (var item in treeItems)
+		{
+			var itemPath = item.GetMetadata(0).AsString();
+			if (itemPath != path)
+				continue;
+			
+			fileSystemTree.SetSelected(item, 0);
+			fileSystemTree.ScrollToItem(item);
+			break;
+		}
+	}
+
+	private void OnCreateFolderButtonPressed()
+	{
+		var item = fileSystemTree.GetSelected();
+		if (item is null)
+			return;
+
+		var path = item.GetMetadata(0).AsString();
+		if (!Directory.Exists(path))
+			return;
+
+		createFolderWindow.CurrentDirectory = path;
+		createFolderWindow.PopupCentered();
+	}
+
+	private void OnCreateFolderWindowSubmitted(string path)
+	{
+		Directory.CreateDirectory(path);
+		ReloadProject();
+	}
+
+	private void ReloadProject()
+	{
+		var collapsedStates = new Dictionary<string, bool>();
+		string selectedPath = null;
+
+		foreach (var item in treeItems)
+		{
+			var path = item.GetMetadata(0).AsString();
+			collapsedStates[path] = item.Collapsed;
+			
+			if (fileSystemTree.GetSelected() == item)
+				selectedPath = path;
+		}
+		
+		LoadProject(activeProject);
+
+		TreeItem selectedItem = null;
+		foreach (var item in treeItems)
+		{
+			var path = item.GetMetadata(0).AsString();
+			item.Collapsed = !collapsedStates.TryGetValue(path, out var collapsed) || collapsed;
+
+			if (path != selectedPath)
+				continue;
+
+			selectedItem = item;
+		}
+
+		if (selectedItem is null)
+			return;
+		
+		fileSystemTree.SetSelected(selectedItem, 0);
+		fileSystemTree.ScrollToItem(selectedItem);
+	}
+
+	private void OnFileSystemTreeGuiInput(InputEvent @event)
+	{
+		if (@event is InputEventKey eventKey)
+		{
+			if (eventKey.GetKeycodeWithModifiers() == Key.Delete && eventKey.Pressed)
+			{
+				var item = fileSystemTree.GetSelected();
+				if (item is null)
+					return;
+
+				var path = item.GetMetadata(0).AsString();
+				PromptDelete(path);
+			}
+		}
+	}
+
+	private void PromptDelete(string path)
+	{
+		if (path == activeProject.Directory)
+			return;
+		
+		deletePath = path;
+		if (File.Exists(path))
+		{
+			deleteFile = true;
+			deleteConfirmationDialog.Title = "Delete File";
+			deleteConfirmationDialog.DialogText = $"Are you sure you want to delete file '{Path.GetFileName(path)}'?";
+			deleteConfirmationDialog.PopupCentered();
+		}
+		else if (Directory.Exists(path))
+		{
+			deleteFile = false;
+			deleteConfirmationDialog.Title = "Delete Folder";
+			deleteConfirmationDialog.DialogText = $"Are you sure you want to delete folder '{Path.GetFileName(path)}'?";
+			deleteConfirmationDialog.PopupCentered();
+		}
+	}
+
+	private void OnDeleteConfirmationDialogCanceled()
+	{
+		deletePath = null;
+		deleteFile = false;
+	}
+
+	private void OnDeleteConfirmationDialogConfirmed()
+	{
+		if (deleteFile)
+			File.Delete(deletePath);
+		else
+			Directory.Delete(deletePath);
+		
+		deletePath = null;
+		deleteFile = false;
+		
+		ReloadProject();
 	}
 }

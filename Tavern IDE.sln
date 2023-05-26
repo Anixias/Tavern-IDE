@@ -2,6 +2,8 @@
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tavern IDE", "Tavern IDE.csproj", "{F027691C-8A3B-48B7-BE5D-07D6EF1298EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuildScript", "GuildScript\GuildScript.csproj", "{D64501FA-8A3F-4A89-A571-EF6326B1967F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 	Debug|Any CPU = Debug|Any CPU
@@ -15,5 +17,11 @@ Global
 		{F027691C-8A3B-48B7-BE5D-07D6EF1298EF}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
 		{F027691C-8A3B-48B7-BE5D-07D6EF1298EF}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{F027691C-8A3B-48B7-BE5D-07D6EF1298EF}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{D64501FA-8A3F-4A89-A571-EF6326B1967F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D64501FA-8A3F-4A89-A571-EF6326B1967F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D64501FA-8A3F-4A89-A571-EF6326B1967F}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D64501FA-8A3F-4A89-A571-EF6326B1967F}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{D64501FA-8A3F-4A89-A571-EF6326B1967F}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
+		{D64501FA-8A3F-4A89-A571-EF6326B1967F}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal

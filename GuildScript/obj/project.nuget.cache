@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "8OjOj+X5SCGzjoVbFH0mT4rgQuzfKkwZU4b9UAT6npWTVaIofsLDwTtnNl5a92U+mG5xpNECHXkhxodPVkmOpQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\colnu\\OneDrive\\Documents\\GitHub\\Tavern IDE\\GuildScript\\GuildScript.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\colnu\\OneDrive\\Documents\\GitHub\\Tavern IDE\\GuildScript\\obj\\project.nuget.cache : Found invalid data while decoding."
+    }
+  ]
+}
