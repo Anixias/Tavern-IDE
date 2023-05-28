@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b1p5te61wjd3q"]
 
-[ext_resource type="Script" path="res://Scenes/ListEntry.cs" id="1_b25a0"]
+[ext_resource type="Script" path="res://Scenes/ListEntry.cs" id="1_w3e0w"]
 
 [node name="ListEntry" type="MarginContainer"]
 anchors_preset = 15
@@ -10,7 +10,7 @@ offset_right = -905.0
 offset_bottom = -595.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_b25a0")
+script = ExtResource("1_w3e0w")
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 2

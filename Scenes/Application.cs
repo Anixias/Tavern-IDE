@@ -33,6 +33,7 @@ public partial class Application : Control
 	private Container fileInfoContainer;
 
 	private Texture2D iconFile;
+	private Texture2D iconFileGuildScript;
 	private Texture2D iconFolderOpen;
 	private Texture2D iconFolderClosed;
 	private Button createFileButton;
@@ -40,8 +41,12 @@ public partial class Application : Control
 	private CreateFileWindow createFileWindow;
 	private CreateFolderWindow createFolderWindow;
 	private ConfirmationDialog deleteConfirmationDialog;
+	private PopupMenu fileContextMenu;
+	private PopupMenu folderContextMenu;
 	private bool deleteFile;
 	private string deletePath;
+
+	private const int IconMaxWidth = 20;
 
 	public override void _Ready()
 	{
@@ -54,14 +59,26 @@ public partial class Application : Control
 		createFolderButton = GetNode<Button>("%CreateFolderButton");
 		createFileWindow = GetNode<CreateFileWindow>("%CreateFileWindow");
 		createFolderWindow = GetNode<CreateFolderWindow>("%CreateFolderWindow");
+		fileContextMenu = GetNode<PopupMenu>("%FileContextMenu");
+		folderContextMenu = GetNode<PopupMenu>("%FolderContextMenu");
+		folderContextMenu.SetItemSubmenu(0, "AddSubmenu");
 		deleteConfirmationDialog = GetNode<ConfirmationDialog>("%DeleteConfirmationDialog");
 		GetWindow().FilesDropped += OnFilesDropped;
 		bottomTabContainer.SetTabIcon(0, ResourceLoader.Load<Texture2D>("res://Assets/Icons/terminal.svg"));
 
 		codeEditorScene = ResourceLoader.Load<PackedScene>("res://Scenes/CodeEditor.tscn");
 		iconFile = ResourceLoader.Load<Texture2D>("res://Assets/Icons/file.svg");
+		iconFileGuildScript = ResourceLoader.Load<Texture2D>("res://Assets/Icons/GuildScriptOutline.svg");
 		iconFolderOpen = ResourceLoader.Load<Texture2D>("res://Assets/Icons/folder-open.svg");
 		iconFolderClosed = ResourceLoader.Load<Texture2D>("res://Assets/Icons/folder.svg");
+	}
+
+	public override void _Process(double delta)
+	{
+		foreach (var (path, openEditor) in openFiles)
+		{
+			fileTabBar.SetTabTitle(openEditor.TabIndex, Path.GetFileName(path));
+		}
 	}
 
 	private void OnFilesDropped(string[] files)
@@ -85,7 +102,10 @@ public partial class Application : Control
 		}
 
 		fileTabBar.AddTab(Path.GetFileName(path));
-		fileTabBar.CurrentTab = fileTabBar.TabCount - 1;
+		var index = fileTabBar.TabCount - 1;
+		fileTabBar.CurrentTab = index;
+		fileTabBar.SetTabIcon(index, GetFileIcon(Path.GetExtension(path)));
+		fileTabBar.SetTabIconMaxWidth(index, IconMaxWidth);
 		
 		var codeEditor = codeEditorScene.Instantiate<CodeEditor>();
 		codeEditorContainer.CallDeferred(Node.MethodName.AddChild, codeEditor);
@@ -160,11 +180,21 @@ public partial class Application : Control
 		var fileTreeItem = fileSystemTree.CreateItem(parent);
 		treeItems.Add(fileTreeItem);
 		fileTreeItem.SetText(0, Path.GetFileName(path));
-		fileTreeItem.SetIcon(0, iconFile);
+		fileTreeItem.SetIcon(0, GetFileIcon(Path.GetExtension(path)));
+		fileTreeItem.SetIconMaxWidth(0, IconMaxWidth);
 		fileTreeItem.SetMetadata(0, path);
 		fileTreeItem.DisableFolding = true;
 
 		return fileTreeItem;
+	}
+
+	private Texture2D GetFileIcon(string extension)
+	{
+		return extension switch
+		{
+			".gs" => iconFileGuildScript,
+			_ => iconFile
+		};
 	}
 
 	private void OnFileSystemTreeItemActivated()
@@ -193,6 +223,29 @@ public partial class Application : Control
 		{
 			createFileButton.Disabled = true;
 			createFolderButton.Disabled = true;
+		}
+	}
+
+	private void OnFileSystemTreeItemMouseSelected(Vector2 mousePosition, int buttonIndex)
+	{
+		if (buttonIndex != (int)MouseButton.Right)
+			return;
+		
+		var item = fileSystemTree.GetSelected();
+		if (item is null)
+			return;
+
+		var path = item.GetMetadata(0).AsString();
+		var position = (Vector2I)GetWindow().GetMousePosition() + GetWindow().Position;
+		if (Directory.Exists(path))
+		{
+			folderContextMenu.Position = position;
+			folderContextMenu.Popup();
+		}
+		else if (File.Exists(path))
+		{
+			fileContextMenu.Position = position;
+			fileContextMenu.Popup();
 		}
 	}
 
@@ -382,18 +435,18 @@ public partial class Application : Control
 
 	private void OnFileSystemTreeGuiInput(InputEvent @event)
 	{
-		if (@event is InputEventKey eventKey)
-		{
-			if (eventKey.GetKeycodeWithModifiers() == Key.Delete && eventKey.Pressed)
-			{
-				var item = fileSystemTree.GetSelected();
-				if (item is null)
-					return;
+		if (@event is not InputEventKey eventKey)
+			return;
+		
+		if (eventKey.GetKeycodeWithModifiers() != Key.Delete || !eventKey.Pressed)
+			return;
+			
+		var item = fileSystemTree.GetSelected();
+		if (item is null)
+			return;
 
-				var path = item.GetMetadata(0).AsString();
-				PromptDelete(path);
-			}
-		}
+		var path = item.GetMetadata(0).AsString();
+		PromptDelete(path);
 	}
 
 	private void PromptDelete(string path)
@@ -435,5 +488,66 @@ public partial class Application : Control
 		deleteFile = false;
 		
 		ReloadProject();
+	}
+
+	private void OnFolderContextMenuAddSubmenuIndexPressed(int index)
+	{
+		switch (index)
+		{
+			// Add > File
+			case 0:
+				OnCreateFileButtonPressed();
+				break;
+			// Add > Folder
+			case 1:
+				OnCreateFolderButtonPressed();
+				break;
+		}
+	}
+
+	private void OnFolderContextMenuIndexPressed(int index)
+	{
+		var item = fileSystemTree.GetSelected();
+		if (item is null)
+			return;
+
+		var path = item.GetMetadata(0).AsString();
+		
+		switch (index)
+		{
+			// Rename
+			case 1:
+				break;
+			// Exclude
+			case 2:
+				break;
+			// Delete
+			case 3:
+				PromptDelete(path);
+				break;
+		}
+	}
+
+	private void OnFileContextMenuIndexPressed(int index)
+	{
+		var item = fileSystemTree.GetSelected();
+		if (item is null)
+			return;
+
+		var path = item.GetMetadata(0).AsString();
+		
+		switch (index)
+		{
+			// Rename
+			case 0:
+				break;
+			// Exclude
+			case 1:
+				break;
+			// Delete
+			case 2:
+				PromptDelete(path);
+				break;
+		}
 	}
 }

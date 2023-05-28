@@ -1,22 +1,22 @@
 [gd_scene load_steps=27 format=3 uid="uid://dw0lh58agqyiw"]
 
-[ext_resource type="Texture2D" uid="uid://bgxldntiwqp78" path="res://Assets/Icons/FolderFileProject.svg" id="1_2qqkd"]
-[ext_resource type="Script" path="res://Scenes/Application.cs" id="1_usnfg"]
-[ext_resource type="Texture2D" uid="uid://vaoo4hdjix7b" path="res://Assets/Icons/Play.svg" id="2_oda3o"]
-[ext_resource type="Texture2D" uid="uid://b3cya2pu4jjai" path="res://Assets/Icons/bug.svg" id="3_a28uk"]
-[ext_resource type="Texture2D" uid="uid://xkduia0wge31" path="res://Assets/Icons/MoreVertical.svg" id="4_3g4dg"]
-[ext_resource type="FontFile" uid="uid://c1fnob5gi3mql" path="res://Assets/Fonts/JetBrains Mono/JETBRAINSMONO-REGULAR.TTF" id="4_seb1l"]
-[ext_resource type="Texture2D" uid="uid://cm2ioligqwdtc" path="res://Assets/Icons/Stop.svg" id="4_xxugv"]
-[ext_resource type="Texture2D" uid="uid://d31cdv3k7w3nq" path="res://Assets/Icons/skip-over.svg" id="5_8ef7g"]
-[ext_resource type="Texture2D" uid="uid://crwki8qlrjfs6" path="res://Assets/Icons/Search.svg" id="5_72mnv"]
-[ext_resource type="Texture2D" uid="uid://f7sythyum4q" path="res://Assets/Icons/SettingsAccountMore.svg" id="6_cirtv"]
-[ext_resource type="Texture2D" uid="uid://cxgv6q7i6d12d" path="res://Assets/Icons/arrow-down-right.svg" id="6_qct73"]
-[ext_resource type="Texture2D" uid="uid://cqloowmbquyca" path="res://Assets/Icons/arrow-up-right.svg" id="7_tbb2o"]
-[ext_resource type="Texture2D" uid="uid://bekv8rackw33n" path="res://Assets/Icons/SearchSmall.svg" id="8_ra34u"]
-[ext_resource type="Texture2D" uid="uid://bwr5ofnq35106" path="res://Assets/Icons/file-plus.svg" id="10_xwhfo"]
-[ext_resource type="Texture2D" uid="uid://4fj2mpx6w1c" path="res://Assets/Icons/folder-plus.svg" id="11_jpqy1"]
-[ext_resource type="PackedScene" uid="uid://du1r14knd762k" path="res://Scenes/CreateFileWindow.tscn" id="16_3sdxn"]
-[ext_resource type="PackedScene" uid="uid://cqsb5nhv10gm8" path="res://Scenes/CreateFolderWindow.tscn" id="17_pvund"]
+[ext_resource type="Script" path="res://Scenes/Application.cs" id="1_j6by2"]
+[ext_resource type="Texture2D" uid="uid://vaoo4hdjix7b" path="res://Assets/Icons/Play.svg" id="2_y74pu"]
+[ext_resource type="Texture2D" uid="uid://b3cya2pu4jjai" path="res://Assets/Icons/bug.svg" id="3_k2rhu"]
+[ext_resource type="Texture2D" uid="uid://cm2ioligqwdtc" path="res://Assets/Icons/Stop.svg" id="4_07qbf"]
+[ext_resource type="Texture2D" uid="uid://d31cdv3k7w3nq" path="res://Assets/Icons/skip-over.svg" id="5_3ndik"]
+[ext_resource type="Texture2D" uid="uid://cxgv6q7i6d12d" path="res://Assets/Icons/arrow-down-right.svg" id="6_sa24k"]
+[ext_resource type="Texture2D" uid="uid://cqloowmbquyca" path="res://Assets/Icons/arrow-up-right.svg" id="7_7vow8"]
+[ext_resource type="Texture2D" uid="uid://xkduia0wge31" path="res://Assets/Icons/MoreVertical.svg" id="8_oc2g5"]
+[ext_resource type="Texture2D" uid="uid://crwki8qlrjfs6" path="res://Assets/Icons/Search.svg" id="9_rai1q"]
+[ext_resource type="Texture2D" uid="uid://f7sythyum4q" path="res://Assets/Icons/SettingsAccountMore.svg" id="10_iqk4c"]
+[ext_resource type="Texture2D" uid="uid://bgxldntiwqp78" path="res://Assets/Icons/FolderFileProject.svg" id="11_vgegq"]
+[ext_resource type="Texture2D" uid="uid://bekv8rackw33n" path="res://Assets/Icons/SearchSmall.svg" id="12_xyb3x"]
+[ext_resource type="Texture2D" uid="uid://bwr5ofnq35106" path="res://Assets/Icons/file-plus.svg" id="13_ke35y"]
+[ext_resource type="Texture2D" uid="uid://4fj2mpx6w1c" path="res://Assets/Icons/folder-plus.svg" id="14_c4k4g"]
+[ext_resource type="FontFile" uid="uid://c1fnob5gi3mql" path="res://Assets/Fonts/JetBrains Mono/JETBRAINSMONO-REGULAR.TTF" id="15_hv84c"]
+[ext_resource type="PackedScene" uid="uid://du1r14knd762k" path="res://Scenes/CreateFileWindow.tscn" id="16_8s8vg"]
+[ext_resource type="PackedScene" uid="uid://cqsb5nhv10gm8" path="res://Scenes/CreateFolderWindow.tscn" id="17_faavi"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y8x25"]
 bg_color = Color(0.0627451, 0.0627451, 0.0705882, 1)
@@ -37,9 +37,9 @@ events = [SubResource("InputEventKey_s730p")]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_axucn"]
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_xw7bm"]
+[sub_resource type="ImageTexture" id="ImageTexture_uepxr"]
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_bmapq"]
+[sub_resource type="ImageTexture" id="ImageTexture_6yvm5"]
 
 [sub_resource type="ImageTexture" id="ImageTexture_gb3jn"]
 
@@ -50,7 +50,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_usnfg")
+script = ExtResource("1_j6by2")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -126,7 +126,7 @@ theme_override_colors/icon_hover_pressed_color = Color(0.368627, 0.94902, 0.3686
 theme_override_colors/icon_focus_color = Color(0.294118, 0.611765, 0.298039, 1)
 theme_override_colors/icon_disabled_color = Color(0.611765, 0.611765, 0.611765, 1)
 shortcut = SubResource("Shortcut_rbapj")
-icon = ExtResource("2_oda3o")
+icon = ExtResource("2_y74pu")
 clip_text = true
 icon_alignment = 1
 
@@ -143,7 +143,7 @@ theme_override_colors/icon_hover_pressed_color = Color(0.368627, 0.94902, 0.3686
 theme_override_colors/icon_focus_color = Color(0.294118, 0.611765, 0.298039, 1)
 theme_override_colors/icon_disabled_color = Color(0.611765, 0.611765, 0.611765, 1)
 shortcut = SubResource("Shortcut_4mu3g")
-icon = ExtResource("3_a28uk")
+icon = ExtResource("3_k2rhu")
 clip_text = true
 icon_alignment = 1
 
@@ -161,7 +161,7 @@ theme_override_colors/icon_focus_color = Color(0.611765, 0.294118, 0.294118, 1)
 theme_override_colors/icon_disabled_color = Color(0.611765, 0.611765, 0.611765, 1)
 disabled = true
 shortcut = SubResource("Shortcut_4mu3g")
-icon = ExtResource("4_xxugv")
+icon = ExtResource("4_07qbf")
 clip_text = true
 icon_alignment = 1
 
@@ -176,7 +176,7 @@ tooltip_text = "Run"
 theme_type_variation = &"FlatButton"
 disabled = true
 shortcut = SubResource("Shortcut_rbapj")
-icon = ExtResource("5_8ef7g")
+icon = ExtResource("5_3ndik")
 clip_text = true
 icon_alignment = 1
 
@@ -188,7 +188,7 @@ tooltip_text = "Run"
 theme_type_variation = &"FlatButton"
 disabled = true
 shortcut = SubResource("Shortcut_rbapj")
-icon = ExtResource("6_qct73")
+icon = ExtResource("6_sa24k")
 clip_text = true
 icon_alignment = 1
 
@@ -200,7 +200,7 @@ tooltip_text = "Run"
 theme_type_variation = &"FlatButton"
 disabled = true
 shortcut = SubResource("Shortcut_rbapj")
-icon = ExtResource("7_tbb2o")
+icon = ExtResource("7_7vow8")
 clip_text = true
 icon_alignment = 1
 
@@ -212,7 +212,7 @@ custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_type_variation = &"FlatButton"
-icon = ExtResource("4_3g4dg")
+icon = ExtResource("8_oc2g5")
 clip_text = true
 icon_alignment = 1
 
@@ -221,7 +221,7 @@ custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_type_variation = &"FlatButton"
-icon = ExtResource("5_72mnv")
+icon = ExtResource("9_rai1q")
 clip_text = true
 icon_alignment = 1
 
@@ -230,7 +230,7 @@ custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_type_variation = &"FlatButton"
-icon = ExtResource("6_cirtv")
+icon = ExtResource("10_iqk4c")
 clip_text = true
 icon_alignment = 1
 
@@ -261,7 +261,7 @@ theme_type_variation = &"FlatButton"
 toggle_mode = true
 button_pressed = true
 button_group = SubResource("ButtonGroup_axucn")
-icon = ExtResource("1_2qqkd")
+icon = ExtResource("11_vgegq")
 clip_text = true
 icon_alignment = 1
 
@@ -270,14 +270,14 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 1
-theme_override_icons/grabber = SubResource("PlaceholderTexture2D_xw7bm")
+theme_override_icons/grabber = SubResource("ImageTexture_uepxr")
 
 [node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/separation = 0
-theme_override_icons/grabber = SubResource("PlaceholderTexture2D_bmapq")
+theme_override_constants/separation = 1
+theme_override_icons/grabber = SubResource("ImageTexture_6yvm5")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer"]
 layout_mode = 2
@@ -294,7 +294,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Find..."
 middle_mouse_paste_enabled = false
-right_icon = ExtResource("8_ra34u")
+right_icon = ExtResource("12_xyb3x")
 caret_blink = true
 
 [node name="CreateFileButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/VBoxContainer/PanelContainer/HBoxContainer"]
@@ -302,14 +302,14 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"FlatButton"
 disabled = true
-icon = ExtResource("10_xwhfo")
+icon = ExtResource("13_ke35y")
 
 [node name="CreateFolderButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/VBoxContainer/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"FlatButton"
 disabled = true
-icon = ExtResource("11_jpqy1")
+icon = ExtResource("14_c4k4g")
 
 [node name="TreePanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/VBoxContainer"]
 custom_minimum_size = Vector2(256, 0)
@@ -319,8 +319,11 @@ size_flags_vertical = 3
 [node name="FileSystemTree" type="Tree" parent="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/VBoxContainer/TreePanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/h_separation = 12
+theme_override_constants/h_separation = 16
 theme_override_constants/draw_relationship_lines = 1
+theme_override_constants/children_hl_line_width = 2
+theme_override_constants/icon_max_width = 24
+allow_rmb_select = true
 select_mode = 1
 
 [node name="EmptyContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer"]
@@ -361,7 +364,7 @@ drag_to_rearrange_enabled = true
 [node name="Console" type="TextEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/ConsoleContainer/BottomTabContainer"]
 custom_minimum_size = Vector2(0, 128)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("4_seb1l")
+theme_override_fonts/font = ExtResource("15_hv84c")
 editable = false
 middle_mouse_paste_enabled = false
 scroll_smooth = true
@@ -416,11 +419,11 @@ popup/item_0/id = 0
 popup/item_1/text = "Space"
 popup/item_1/id = 1
 
-[node name="CreateFileWindow" parent="." instance=ExtResource("16_3sdxn")]
+[node name="CreateFileWindow" parent="." instance=ExtResource("16_8s8vg")]
 unique_name_in_owner = true
 visible = false
 
-[node name="CreateFolderWindow" parent="." instance=ExtResource("17_pvund")]
+[node name="CreateFolderWindow" parent="." instance=ExtResource("17_faavi")]
 unique_name_in_owner = true
 visible = false
 
@@ -431,11 +434,46 @@ size = Vector2i(240, 100)
 ok_button_text = "Delete"
 dialog_text = "Are you sure you want to delete file ''?"
 
+[node name="FileContextMenu" type="PopupMenu" parent="."]
+unique_name_in_owner = true
+size = Vector2i(71, 73)
+allow_search = false
+item_count = 3
+item_0/text = "Rename"
+item_0/id = 0
+item_1/text = "Exclude"
+item_1/id = 1
+item_2/text = "Delete"
+item_2/id = 2
+
+[node name="FolderContextMenu" type="PopupMenu" parent="."]
+unique_name_in_owner = true
+size = Vector2i(71, 96)
+allow_search = false
+item_count = 4
+item_0/text = "Add"
+item_0/id = 0
+item_1/text = "Rename"
+item_1/id = 1
+item_2/text = "Exclude"
+item_2/id = 2
+item_3/text = "Delete"
+item_3/id = 3
+
+[node name="AddSubmenu" type="PopupMenu" parent="FolderContextMenu"]
+size = Vector2i(61, 50)
+item_count = 2
+item_0/text = "File"
+item_0/id = 0
+item_1/text = "Folder"
+item_1/id = 1
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/VBoxContainer/PanelContainer/HBoxContainer/CreateFileButton" to="." method="OnCreateFileButtonPressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/VBoxContainer/PanelContainer/HBoxContainer/CreateFolderButton" to="." method="OnCreateFolderButtonPressed"]
 [connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/VBoxContainer/TreePanelContainer/FileSystemTree" to="." method="OnFileSystemTreeGuiInput"]
 [connection signal="item_activated" from="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/VBoxContainer/TreePanelContainer/FileSystemTree" to="." method="OnFileSystemTreeItemActivated"]
 [connection signal="item_collapsed" from="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/VBoxContainer/TreePanelContainer/FileSystemTree" to="." method="OnFileSystemTreeItemCollapsed"]
+[connection signal="item_mouse_selected" from="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/VBoxContainer/TreePanelContainer/FileSystemTree" to="." method="OnFileSystemTreeItemMouseSelected"]
 [connection signal="item_selected" from="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/VBoxContainer/TreePanelContainer/FileSystemTree" to="." method="OnFileSystemTreeItemSelected"]
 [connection signal="active_tab_rearranged" from="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/EmptyContainer/CodeEditorContainer/PanelContainer/FileTabBar" to="." method="OnFileTabBarActiveTabRearranged"]
 [connection signal="tab_changed" from="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/EmptyContainer/CodeEditorContainer/PanelContainer/FileTabBar" to="." method="OnFileTabBarTabChanged"]
@@ -444,3 +482,6 @@ dialog_text = "Are you sure you want to delete file ''?"
 [connection signal="Submitted" from="CreateFolderWindow" to="." method="OnCreateFolderWindowSubmitted"]
 [connection signal="canceled" from="DeleteConfirmationDialog" to="." method="OnDeleteConfirmationDialogCanceled"]
 [connection signal="confirmed" from="DeleteConfirmationDialog" to="." method="OnDeleteConfirmationDialogConfirmed"]
+[connection signal="index_pressed" from="FileContextMenu" to="." method="OnFileContextMenuIndexPressed"]
+[connection signal="index_pressed" from="FolderContextMenu" to="." method="OnFolderContextMenuIndexPressed"]
+[connection signal="index_pressed" from="FolderContextMenu/AddSubmenu" to="." method="OnFolderContextMenuAddSubmenuIndexPressed"]
