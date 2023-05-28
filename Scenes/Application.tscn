@@ -1,6 +1,7 @@
-[gd_scene load_steps=27 format=3 uid="uid://dw0lh58agqyiw"]
+[gd_scene load_steps=28 format=3 uid="uid://dw0lh58agqyiw"]
 
 [ext_resource type="Script" path="res://Scenes/Application.cs" id="1_j6by2"]
+[ext_resource type="Texture2D" uid="uid://rb5li7r3eguc" path="res://Assets/Icons/SaveAlt.svg" id="2_f23bv"]
 [ext_resource type="Texture2D" uid="uid://vaoo4hdjix7b" path="res://Assets/Icons/Play.svg" id="2_y74pu"]
 [ext_resource type="Texture2D" uid="uid://b3cya2pu4jjai" path="res://Assets/Icons/bug.svg" id="3_k2rhu"]
 [ext_resource type="Texture2D" uid="uid://cm2ioligqwdtc" path="res://Assets/Icons/Stop.svg" id="4_07qbf"]
@@ -99,10 +100,25 @@ size_flags_vertical = 4
 
 [node name="Edit" type="PopupMenu" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/MenuBar"]
 
+[node name="SaveButton" type="Button" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+tooltip_text = "Run"
+theme_type_variation = &"FlatButton"
+shortcut = SubResource("Shortcut_rbapj")
+icon = ExtResource("2_f23bv")
+clip_text = true
+icon_alignment = 1
+
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 10
 alignment = 2
+
+[node name="VSeparator3" type="VSeparator" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
 
 [node name="OptionButton" type="OptionButton" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
