@@ -4,7 +4,7 @@ namespace Tavern;
 
 public partial class CodeEditor : CodeEdit
 {
-	public bool UnsavedChanges => GetVersion() == GetSavedVersion();
+	public bool UnsavedChanges => GetVersion() != GetSavedVersion();
 
 	public void SaveChanges()
 	{

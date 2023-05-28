@@ -12,11 +12,13 @@ public partial class Application : Control
 	{
 		public CodeEditor CodeEditor { get; }
 		public int TabIndex { get; set; }
+		public string Title { get; }
 		
-		public OpenEditor(CodeEditor codeEditor, int tabIndex)
+		public OpenEditor(CodeEditor codeEditor, int tabIndex, string title)
 		{
 			CodeEditor = codeEditor;
 			TabIndex = tabIndex;
+			Title = title;
 		}
 	}
 
@@ -75,9 +77,10 @@ public partial class Application : Control
 
 	public override void _Process(double delta)
 	{
-		foreach (var (path, openEditor) in openFiles)
+		foreach (var openEditor in openFiles.Values)
 		{
-			fileTabBar.SetTabTitle(openEditor.TabIndex, Path.GetFileName(path));
+			var name = openEditor.Title + (openEditor.CodeEditor.UnsavedChanges ? "*" : "");
+			fileTabBar.SetTabTitle(openEditor.TabIndex, name);
 		}
 	}
 
@@ -101,10 +104,10 @@ public partial class Application : Control
 			return;
 		}
 
-		fileTabBar.AddTab(Path.GetFileName(path));
+		var title = Path.GetFileName(path);
+		fileTabBar.AddTab(title, GetFileIcon(Path.GetExtension(path)));
 		var index = fileTabBar.TabCount - 1;
 		fileTabBar.CurrentTab = index;
-		fileTabBar.SetTabIcon(index, GetFileIcon(Path.GetExtension(path)));
 		fileTabBar.SetTabIconMaxWidth(index, IconMaxWidth);
 		
 		var codeEditor = codeEditorScene.Instantiate<CodeEditor>();
@@ -115,13 +118,14 @@ public partial class Application : Control
 		
 		currentCodeEditor = codeEditor;
 		
-		openFiles.Add(path, new OpenEditor(codeEditor, fileTabBar.TabCount - 1));
+		openFiles.Add(path, new OpenEditor(codeEditor, fileTabBar.TabCount - 1, title));
 
 		if (!codeEditor.IsNodeReady())
 			await ToSignal(codeEditor, Node.SignalName.Ready);
 		
 		using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
 		codeEditor.Text = file.GetAsText();
+		codeEditor.SaveChanges();
 		
 		// @TODO Detect file info
 		fileInfoContainer.Visible = true;
