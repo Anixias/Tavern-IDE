@@ -33,6 +33,9 @@ public partial class Application : Control
 	private Tree fileSystemTree;
 	private Project activeProject;
 	private Container fileInfoContainer;
+	private OptionButton lineEndingOptionButton;
+	private Label encodingLabel;
+	private OptionButton tabOptionButton;
 
 	private Texture2D iconFile;
 	private Texture2D iconFileGuildScript;
@@ -68,6 +71,10 @@ public partial class Application : Control
 		GetWindow().FilesDropped += OnFilesDropped;
 		bottomTabContainer.SetTabIcon(0, ResourceLoader.Load<Texture2D>("res://Assets/Icons/terminal.svg"));
 
+		lineEndingOptionButton = GetNode<OptionButton>("%LineEndingOptionButton");
+		encodingLabel = GetNode<Label>("%EncodingLabel");
+		tabOptionButton = GetNode<OptionButton>("%TabOptionButton");
+		
 		codeEditorScene = ResourceLoader.Load<PackedScene>("res://Scenes/CodeEditor.tscn");
 		iconFile = ResourceLoader.Load<Texture2D>("res://Assets/Icons/file.svg");
 		iconFileGuildScript = ResourceLoader.Load<Texture2D>("res://Assets/Icons/GuildScriptOutline.svg");
@@ -92,7 +99,7 @@ public partial class Application : Control
 		}
 	}
 
-	private async void OpenFile(string path)
+	private void OpenFile(string path)
 	{
 		if (!File.Exists(path))
 			return;
@@ -112,33 +119,34 @@ public partial class Application : Control
 		
 		var codeEditor = codeEditorScene.Instantiate<CodeEditor>();
 		codeEditorContainer.CallDeferred(Node.MethodName.AddChild, codeEditor);
-		
-		if (currentCodeEditor is not null && IsInstanceValid(currentCodeEditor))
-			currentCodeEditor.Hide();
-		
-		currentCodeEditor = codeEditor;
-		
+		codeEditor.Path = path;
 		openFiles.Add(path, new OpenEditor(codeEditor, fileTabBar.TabCount - 1, title));
-
-		if (!codeEditor.IsNodeReady())
-			await ToSignal(codeEditor, Node.SignalName.Ready);
-		
-		using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
-		codeEditor.Text = file.GetAsText();
-		codeEditor.SaveChanges();
+		ActivateEditor(codeEditor);
 		
 		// @TODO Detect file info
 		fileInfoContainer.Visible = true;
 	}
 
-	private void ActivateEditor(CodeEditor codeEditor)
+	private async void ActivateEditor(CodeEditor codeEditor)
 	{
 		if (currentCodeEditor is not null && IsInstanceValid(currentCodeEditor))
 			currentCodeEditor.Hide();
-		
+
 		// @TODO Detect file info
 		currentCodeEditor = codeEditor;
+
+		if (codeEditor is null)
+			return;
+
+		if (!codeEditor.IsNodeReady())
+		{
+			await ToSignal(codeEditor, Node.SignalName.Ready);
+		}
+		
 		codeEditor.Show();
+		lineEndingOptionButton.Selected = (int)codeEditor.EndOfLine;
+		encodingLabel.Text = codeEditor.Encoding.EncodingName;
+		tabOptionButton.Selected = (int)codeEditor.Tab;
 	}
 
 	public async void LoadProject(Project project)
@@ -173,7 +181,7 @@ public partial class Application : Control
 
 		foreach (var childFile in Directory.GetFiles(directory).OrderBy(Path.GetFileName))
 		{
-			AddFileToTree(childFile, treeItem);
+			AddFileToTree(childFile.Replace("\\", "/"), treeItem);
 		}
 		
 		treeItem.SetCollapsedRecursive(true);
@@ -277,6 +285,11 @@ public partial class Application : Control
 
 	private void OnFileTabBarTabClosePressed(int index)
 	{
+		RemoveTab(index);
+	}
+
+	private void RemoveTab(int index)
+	{
 		fileTabBar.RemoveTab(index);
 
 		string deleteFilePath = null;
@@ -363,7 +376,10 @@ public partial class Application : Control
 
 	private void OnCreateFileWindowSubmitted(string path)
 	{
-		using var file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
+		using (FileAccess.Open(path, FileAccess.ModeFlags.Write))
+		{
+			
+		}
 		
 		// @TODO Load file template
 		
@@ -483,6 +499,9 @@ public partial class Application : Control
 
 	private void OnDeleteConfirmationDialogConfirmed()
 	{
+		var openEditor = openFiles[deletePath];
+		RemoveTab(openEditor.TabIndex);
+		
 		if (deleteFile)
 			File.Delete(deletePath);
 		else
@@ -553,5 +572,23 @@ public partial class Application : Control
 				PromptDelete(path);
 				break;
 		}
+	}
+
+	private void OnSaveButtonPressed()
+	{
+		if (currentCodeEditor is null || !IsInstanceValid(currentCodeEditor))
+			return;
+		
+		currentCodeEditor.SaveChanges();
+	}
+
+	private void OnLineEndingOptionButtonItemSelected(int index)
+	{
+		currentCodeEditor.EndOfLine = (EncodingManager.EndOfLine)index;
+	}
+
+	private void OnTabOptionButtonItemSelected(int index)
+	{
+		currentCodeEditor.Tab = (EncodingManager.Tab)index;
 	}
 }

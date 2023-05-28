@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://dw0lh58agqyiw"]
+[gd_scene load_steps=30 format=3 uid="uid://dw0lh58agqyiw"]
 
 [ext_resource type="Script" path="res://Scenes/Application.cs" id="1_j6by2"]
 [ext_resource type="Texture2D" uid="uid://rb5li7r3eguc" path="res://Assets/Icons/SaveAlt.svg" id="2_f23bv"]
@@ -21,6 +21,14 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y8x25"]
 bg_color = Color(0.0627451, 0.0627451, 0.0705882, 1)
+
+[sub_resource type="InputEventKey" id="InputEventKey_b13a7"]
+device = -1
+ctrl_pressed = true
+keycode = 83
+
+[sub_resource type="Shortcut" id="Shortcut_fahd5"]
+events = [SubResource("InputEventKey_b13a7")]
 
 [sub_resource type="InputEventKey" id="InputEventKey_rsxt3"]
 device = -1
@@ -106,7 +114,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 tooltip_text = "Run"
 theme_type_variation = &"FlatButton"
-shortcut = SubResource("Shortcut_rbapj")
+shortcut = SubResource("Shortcut_fahd5")
 icon = ExtResource("2_f23bv")
 clip_text = true
 icon_alignment = 1
@@ -403,7 +411,7 @@ theme_override_constants/h_separation = 0
 theme_override_constants/arrow_margin = 0
 theme_override_icons/arrow = SubResource("ImageTexture_gb3jn")
 alignment = 1
-item_count = 3
+item_count = 4
 selected = 0
 popup/item_0/text = "LF"
 popup/item_0/id = 0
@@ -411,6 +419,9 @@ popup/item_1/text = "CRLF"
 popup/item_1/id = 1
 popup/item_2/text = "CR"
 popup/item_2/id = 2
+popup/item_3/text = "Mixed"
+popup/item_3/id = 3
+popup/item_3/disabled = true
 
 [node name="EncodingLabel" type="Label" parent="MarginContainer/VBoxContainer/InfoPanel/FileInfoContainer"]
 unique_name_in_owner = true
@@ -428,12 +439,15 @@ theme_override_constants/h_separation = 0
 theme_override_constants/arrow_margin = 0
 theme_override_icons/arrow = SubResource("ImageTexture_gb3jn")
 alignment = 1
-item_count = 2
+item_count = 3
 selected = 0
 popup/item_0/text = "Tab"
 popup/item_0/id = 0
 popup/item_1/text = "Space"
 popup/item_1/id = 1
+popup/item_2/text = "Mixed"
+popup/item_2/id = 2
+popup/item_2/disabled = true
 
 [node name="CreateFileWindow" parent="." instance=ExtResource("16_8s8vg")]
 unique_name_in_owner = true
@@ -484,6 +498,7 @@ item_0/id = 0
 item_1/text = "Folder"
 item_1/id = 1
 
+[connection signal="pressed" from="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/SaveButton" to="." method="OnSaveButtonPressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/VBoxContainer/PanelContainer/HBoxContainer/CreateFileButton" to="." method="OnCreateFileButtonPressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/VBoxContainer/PanelContainer/HBoxContainer/CreateFolderButton" to="." method="OnCreateFolderButtonPressed"]
 [connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/VBoxContainer/TreePanelContainer/FileSystemTree" to="." method="OnFileSystemTreeGuiInput"]
@@ -494,6 +509,8 @@ item_1/id = 1
 [connection signal="active_tab_rearranged" from="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/EmptyContainer/CodeEditorContainer/PanelContainer/FileTabBar" to="." method="OnFileTabBarActiveTabRearranged"]
 [connection signal="tab_changed" from="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/EmptyContainer/CodeEditorContainer/PanelContainer/FileTabBar" to="." method="OnFileTabBarTabChanged"]
 [connection signal="tab_close_pressed" from="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/EmptyContainer/CodeEditorContainer/PanelContainer/FileTabBar" to="." method="OnFileTabBarTabClosePressed"]
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/InfoPanel/FileInfoContainer/LineEndingOptionButton" to="." method="OnLineEndingOptionButtonItemSelected"]
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/InfoPanel/FileInfoContainer/TabOptionButton" to="." method="OnTabOptionButtonItemSelected"]
 [connection signal="Submitted" from="CreateFileWindow" to="." method="OnCreateFileWindowSubmitted"]
 [connection signal="Submitted" from="CreateFolderWindow" to="." method="OnCreateFolderWindowSubmitted"]
 [connection signal="canceled" from="DeleteConfirmationDialog" to="." method="OnDeleteConfirmationDialogCanceled"]
