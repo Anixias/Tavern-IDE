@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://gxcyf1w4uyxk"]
 
-[ext_resource type="FontFile" uid="uid://ckl2faykk27my" path="res://Assets/Fonts/Cascadia Code/CASCADIACODE.TTF" id="1_epaqy"]
-[ext_resource type="Script" path="res://Scenes/CodeEditor.cs" id="2_erxrt"]
+[ext_resource type="FontFile" uid="uid://ckl2faykk27my" path="res://Assets/Fonts/Cascadia Code/CASCADIACODE.TTF" id="1_1opxy"]
+[ext_resource type="Script" path="res://Scenes/CodeEditor.cs" id="2_pffir"]
 
 [node name="CodeEdit" type="CodeEdit"]
 anchors_preset = 15
@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
 theme_override_constants/line_spacing = 1
-theme_override_fonts/font = ExtResource("1_epaqy")
+theme_override_fonts/font = ExtResource("1_1opxy")
 theme_override_font_sizes/font_size = 18
 drag_and_drop_selection_enabled = false
 middle_mouse_paste_enabled = false
@@ -31,6 +31,7 @@ code_completion_enabled = true
 indent_automatic = true
 auto_brace_completion_enabled = true
 auto_brace_completion_highlight_matching = true
-script = ExtResource("2_erxrt")
+script = ExtResource("2_pffir")
 
 [connection signal="gui_input" from="." to="." method="OnGuiInput"]
+[connection signal="text_changed" from="." to="." method="OnTextChanged"]

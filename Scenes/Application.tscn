@@ -1,23 +1,23 @@
 [gd_scene load_steps=30 format=3 uid="uid://dw0lh58agqyiw"]
 
-[ext_resource type="Script" path="res://Scenes/Application.cs" id="1_j6by2"]
-[ext_resource type="Texture2D" uid="uid://rb5li7r3eguc" path="res://Assets/Icons/SaveAlt.svg" id="2_f23bv"]
-[ext_resource type="Texture2D" uid="uid://vaoo4hdjix7b" path="res://Assets/Icons/Play.svg" id="2_y74pu"]
-[ext_resource type="Texture2D" uid="uid://b3cya2pu4jjai" path="res://Assets/Icons/bug.svg" id="3_k2rhu"]
-[ext_resource type="Texture2D" uid="uid://cm2ioligqwdtc" path="res://Assets/Icons/Stop.svg" id="4_07qbf"]
-[ext_resource type="Texture2D" uid="uid://d31cdv3k7w3nq" path="res://Assets/Icons/skip-over.svg" id="5_3ndik"]
-[ext_resource type="Texture2D" uid="uid://cxgv6q7i6d12d" path="res://Assets/Icons/arrow-down-right.svg" id="6_sa24k"]
-[ext_resource type="Texture2D" uid="uid://cqloowmbquyca" path="res://Assets/Icons/arrow-up-right.svg" id="7_7vow8"]
-[ext_resource type="Texture2D" uid="uid://xkduia0wge31" path="res://Assets/Icons/MoreVertical.svg" id="8_oc2g5"]
-[ext_resource type="Texture2D" uid="uid://crwki8qlrjfs6" path="res://Assets/Icons/Search.svg" id="9_rai1q"]
-[ext_resource type="Texture2D" uid="uid://f7sythyum4q" path="res://Assets/Icons/SettingsAccountMore.svg" id="10_iqk4c"]
-[ext_resource type="Texture2D" uid="uid://bgxldntiwqp78" path="res://Assets/Icons/FolderFileProject.svg" id="11_vgegq"]
-[ext_resource type="Texture2D" uid="uid://bekv8rackw33n" path="res://Assets/Icons/SearchSmall.svg" id="12_xyb3x"]
-[ext_resource type="Texture2D" uid="uid://bwr5ofnq35106" path="res://Assets/Icons/file-plus.svg" id="13_ke35y"]
-[ext_resource type="Texture2D" uid="uid://4fj2mpx6w1c" path="res://Assets/Icons/folder-plus.svg" id="14_c4k4g"]
-[ext_resource type="FontFile" uid="uid://c1fnob5gi3mql" path="res://Assets/Fonts/JetBrains Mono/JETBRAINSMONO-REGULAR.TTF" id="15_hv84c"]
-[ext_resource type="PackedScene" uid="uid://du1r14knd762k" path="res://Scenes/CreateFileWindow.tscn" id="16_8s8vg"]
-[ext_resource type="PackedScene" uid="uid://cqsb5nhv10gm8" path="res://Scenes/CreateFolderWindow.tscn" id="17_faavi"]
+[ext_resource type="Script" path="res://Scenes/Application.cs" id="1_cnifj"]
+[ext_resource type="Texture2D" uid="uid://rb5li7r3eguc" path="res://Assets/Icons/SaveAlt.svg" id="2_35xvs"]
+[ext_resource type="Texture2D" uid="uid://vaoo4hdjix7b" path="res://Assets/Icons/Play.svg" id="3_aktva"]
+[ext_resource type="Texture2D" uid="uid://b3cya2pu4jjai" path="res://Assets/Icons/bug.svg" id="4_c64pk"]
+[ext_resource type="Texture2D" uid="uid://cm2ioligqwdtc" path="res://Assets/Icons/Stop.svg" id="5_5se0r"]
+[ext_resource type="Texture2D" uid="uid://d31cdv3k7w3nq" path="res://Assets/Icons/skip-over.svg" id="6_a11ub"]
+[ext_resource type="Texture2D" uid="uid://cxgv6q7i6d12d" path="res://Assets/Icons/arrow-down-right.svg" id="7_ce1cu"]
+[ext_resource type="Texture2D" uid="uid://cqloowmbquyca" path="res://Assets/Icons/arrow-up-right.svg" id="8_4omsc"]
+[ext_resource type="Texture2D" uid="uid://xkduia0wge31" path="res://Assets/Icons/MoreVertical.svg" id="9_71agd"]
+[ext_resource type="Texture2D" uid="uid://crwki8qlrjfs6" path="res://Assets/Icons/Search.svg" id="10_3trs6"]
+[ext_resource type="Texture2D" uid="uid://f7sythyum4q" path="res://Assets/Icons/SettingsAccountMore.svg" id="11_ymwak"]
+[ext_resource type="Texture2D" uid="uid://bgxldntiwqp78" path="res://Assets/Icons/FolderFileProject.svg" id="12_wo50s"]
+[ext_resource type="Texture2D" uid="uid://bekv8rackw33n" path="res://Assets/Icons/SearchSmall.svg" id="13_ny0v8"]
+[ext_resource type="Texture2D" uid="uid://bwr5ofnq35106" path="res://Assets/Icons/file-plus.svg" id="14_82rsm"]
+[ext_resource type="Texture2D" uid="uid://4fj2mpx6w1c" path="res://Assets/Icons/folder-plus.svg" id="15_yhxpx"]
+[ext_resource type="FontFile" uid="uid://c1fnob5gi3mql" path="res://Assets/Fonts/JetBrains Mono/JETBRAINSMONO-REGULAR.TTF" id="16_rrq2k"]
+[ext_resource type="PackedScene" uid="uid://du1r14knd762k" path="res://Scenes/CreateFileWindow.tscn" id="17_k1n3w"]
+[ext_resource type="PackedScene" uid="uid://cqsb5nhv10gm8" path="res://Scenes/CreateFolderWindow.tscn" id="18_x6mx8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y8x25"]
 bg_color = Color(0.0627451, 0.0627451, 0.0705882, 1)
@@ -59,7 +59,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_j6by2")
+script = ExtResource("1_cnifj")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -115,7 +115,7 @@ size_flags_horizontal = 4
 tooltip_text = "Run"
 theme_type_variation = &"FlatButton"
 shortcut = SubResource("Shortcut_fahd5")
-icon = ExtResource("2_f23bv")
+icon = ExtResource("2_35xvs")
 clip_text = true
 icon_alignment = 1
 
@@ -150,7 +150,7 @@ theme_override_colors/icon_hover_pressed_color = Color(0.368627, 0.94902, 0.3686
 theme_override_colors/icon_focus_color = Color(0.294118, 0.611765, 0.298039, 1)
 theme_override_colors/icon_disabled_color = Color(0.611765, 0.611765, 0.611765, 1)
 shortcut = SubResource("Shortcut_rbapj")
-icon = ExtResource("2_y74pu")
+icon = ExtResource("3_aktva")
 clip_text = true
 icon_alignment = 1
 
@@ -167,7 +167,7 @@ theme_override_colors/icon_hover_pressed_color = Color(0.368627, 0.94902, 0.3686
 theme_override_colors/icon_focus_color = Color(0.294118, 0.611765, 0.298039, 1)
 theme_override_colors/icon_disabled_color = Color(0.611765, 0.611765, 0.611765, 1)
 shortcut = SubResource("Shortcut_4mu3g")
-icon = ExtResource("3_k2rhu")
+icon = ExtResource("4_c64pk")
 clip_text = true
 icon_alignment = 1
 
@@ -185,7 +185,7 @@ theme_override_colors/icon_focus_color = Color(0.611765, 0.294118, 0.294118, 1)
 theme_override_colors/icon_disabled_color = Color(0.611765, 0.611765, 0.611765, 1)
 disabled = true
 shortcut = SubResource("Shortcut_4mu3g")
-icon = ExtResource("4_07qbf")
+icon = ExtResource("5_5se0r")
 clip_text = true
 icon_alignment = 1
 
@@ -200,7 +200,7 @@ tooltip_text = "Run"
 theme_type_variation = &"FlatButton"
 disabled = true
 shortcut = SubResource("Shortcut_rbapj")
-icon = ExtResource("5_3ndik")
+icon = ExtResource("6_a11ub")
 clip_text = true
 icon_alignment = 1
 
@@ -212,7 +212,7 @@ tooltip_text = "Run"
 theme_type_variation = &"FlatButton"
 disabled = true
 shortcut = SubResource("Shortcut_rbapj")
-icon = ExtResource("6_sa24k")
+icon = ExtResource("7_ce1cu")
 clip_text = true
 icon_alignment = 1
 
@@ -224,7 +224,7 @@ tooltip_text = "Run"
 theme_type_variation = &"FlatButton"
 disabled = true
 shortcut = SubResource("Shortcut_rbapj")
-icon = ExtResource("7_7vow8")
+icon = ExtResource("8_4omsc")
 clip_text = true
 icon_alignment = 1
 
@@ -236,7 +236,7 @@ custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_type_variation = &"FlatButton"
-icon = ExtResource("8_oc2g5")
+icon = ExtResource("9_71agd")
 clip_text = true
 icon_alignment = 1
 
@@ -245,7 +245,7 @@ custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_type_variation = &"FlatButton"
-icon = ExtResource("9_rai1q")
+icon = ExtResource("10_3trs6")
 clip_text = true
 icon_alignment = 1
 
@@ -254,7 +254,7 @@ custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_type_variation = &"FlatButton"
-icon = ExtResource("10_iqk4c")
+icon = ExtResource("11_ymwak")
 clip_text = true
 icon_alignment = 1
 
@@ -285,7 +285,7 @@ theme_type_variation = &"FlatButton"
 toggle_mode = true
 button_pressed = true
 button_group = SubResource("ButtonGroup_axucn")
-icon = ExtResource("11_vgegq")
+icon = ExtResource("12_wo50s")
 clip_text = true
 icon_alignment = 1
 
@@ -318,7 +318,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Find..."
 middle_mouse_paste_enabled = false
-right_icon = ExtResource("12_xyb3x")
+right_icon = ExtResource("13_ny0v8")
 caret_blink = true
 
 [node name="CreateFileButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/VBoxContainer/PanelContainer/HBoxContainer"]
@@ -326,14 +326,14 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"FlatButton"
 disabled = true
-icon = ExtResource("13_ke35y")
+icon = ExtResource("14_82rsm")
 
 [node name="CreateFolderButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/VBoxContainer/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"FlatButton"
 disabled = true
-icon = ExtResource("14_c4k4g")
+icon = ExtResource("15_yhxpx")
 
 [node name="TreePanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/HSplitContainer/VBoxContainer"]
 custom_minimum_size = Vector2(256, 0)
@@ -388,7 +388,7 @@ drag_to_rearrange_enabled = true
 [node name="Console" type="TextEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/VSplitContainer/ConsoleContainer/BottomTabContainer"]
 custom_minimum_size = Vector2(0, 128)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("15_hv84c")
+theme_override_fonts/font = ExtResource("16_rrq2k")
 editable = false
 middle_mouse_paste_enabled = false
 scroll_smooth = true
@@ -449,11 +449,11 @@ popup/item_2/text = "Mixed"
 popup/item_2/id = 2
 popup/item_2/disabled = true
 
-[node name="CreateFileWindow" parent="." instance=ExtResource("16_8s8vg")]
+[node name="CreateFileWindow" parent="." instance=ExtResource("17_k1n3w")]
 unique_name_in_owner = true
 visible = false
 
-[node name="CreateFolderWindow" parent="." instance=ExtResource("17_faavi")]
+[node name="CreateFolderWindow" parent="." instance=ExtResource("18_x6mx8")]
 unique_name_in_owner = true
 visible = false
 

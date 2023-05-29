@@ -2,23 +2,30 @@
 
 namespace GuildScript.Analysis.Text;
 
-internal sealed class TextSpan : IEnumerable<int>
+public sealed class TextSpan : IEnumerable<int>
 {
-	public int Start { get; }
+	public int LineStart { get; }
+	public int LineEnd { get; }
+	public int ColumnStart { get; }
+	public int ColumnEnd { get; }
+	public int Start { get; set; }
 	public int Length { get; }
 	public int End => Start + Length;
-	public SourceText Source { get; }
+	internal SourceText Source { get; }
 
 	public bool Contains(int position)
 	{
 		return Start <= position && position <= End;
 	}
 
-	public TextSpan(int start, int length, SourceText source)
+	internal TextSpan(int start, int length, SourceText source)
 	{
 		Start = start;
 		Length = length;
 		Source = source;
+
+		(LineStart, ColumnStart) = source.GetLineAndColumn(Start);
+		(LineEnd, ColumnEnd) = source.GetLineAndColumn(End);
 	}
 
 	public IEnumerator<int> GetEnumerator()
@@ -32,5 +39,10 @@ internal sealed class TextSpan : IEnumerable<int>
 	IEnumerator IEnumerable.GetEnumerator()
 	{
 		return GetEnumerator();
+	}
+
+	public bool ContainsLine(int line)
+	{
+		return LineStart <= line && line <= LineEnd;
 	}
 }

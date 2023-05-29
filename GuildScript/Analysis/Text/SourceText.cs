@@ -71,7 +71,7 @@ internal sealed class SourceText
     public (int line, int column) GetLineAndColumn(int position)
     {
         if (position < 0 || position >= Text.Length)
-            throw new ArgumentOutOfRangeException(nameof(position));
+            return (0, 0);
 
         var left = 0;
         var right = lineNumbers.Count - 1;

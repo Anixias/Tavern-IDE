@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Godot;
+using GuildScript;
 using FileAccess = Godot.FileAccess;
 
 namespace Tavern;
@@ -21,6 +22,9 @@ public partial class Application : Control
 			Title = title;
 		}
 	}
+
+	private readonly LanguageServer guildScriptLanguageServer = new();
+	private readonly Dictionary<string, LanguageServer> fileServers = new();
 
 	private int activeFileTab = -1;
 	private TabBar fileTabBar;
@@ -116,15 +120,26 @@ public partial class Application : Control
 		var index = fileTabBar.TabCount - 1;
 		fileTabBar.CurrentTab = index;
 		fileTabBar.SetTabIconMaxWidth(index, IconMaxWidth);
-		
+
 		var codeEditor = codeEditorScene.Instantiate<CodeEditor>();
 		codeEditorContainer.CallDeferred(Node.MethodName.AddChild, codeEditor);
 		codeEditor.Path = path;
+		codeEditor.SyntaxHighlighter = CreateSyntaxHighlighter(path);
+		codeEditor.TextChanged += () => UpdateFile(path, codeEditor.Text);
 		openFiles.Add(path, new OpenEditor(codeEditor, fileTabBar.TabCount - 1, title));
 		ActivateEditor(codeEditor);
 		
 		// @TODO Detect file info
 		fileInfoContainer.Visible = true;
+	}
+
+	private SyntaxHighlighter CreateSyntaxHighlighter(string path)
+	{
+		return Path.GetExtension(path) switch
+		{
+			".gs" => new GuildScriptSyntaxHighlighter(path, guildScriptLanguageServer),
+			_     => null
+		};
 	}
 
 	private async void ActivateEditor(CodeEditor codeEditor)
@@ -197,7 +212,28 @@ public partial class Application : Control
 		fileTreeItem.SetMetadata(0, path);
 		fileTreeItem.DisableFolding = true;
 
+		AddFileToLanguageServer(path);
+
 		return fileTreeItem;
+	}
+
+	private void AddFileToLanguageServer(string path)
+	{
+		switch (Path.GetExtension(path))
+		{
+			case ".gs":
+				fileServers.Add(path, guildScriptLanguageServer);
+				guildScriptLanguageServer.AddFile(path);
+				break;
+		}
+	}
+
+	private void UpdateFile(string path, string content)
+	{
+		if (!fileServers.ContainsKey(path))
+			return;
+		
+		fileServers[path].UpdateFile(path, content);
 	}
 
 	private Texture2D GetFileIcon(string extension)

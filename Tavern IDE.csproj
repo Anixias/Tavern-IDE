@@ -6,11 +6,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="GuildScript\**" />
+    <Compile Remove="Glint\**" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="GuildScript\**" />
+    <EmbeddedResource Remove="Glint\**" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="GuildScript\GuildScript.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include=".godot\mono\temp\" />
   </ItemGroup>
 </Project>

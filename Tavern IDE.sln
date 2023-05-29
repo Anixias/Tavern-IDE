@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tavern IDE", "Tavern IDE.cs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuildScript", "GuildScript\GuildScript.csproj", "{D64501FA-8A3F-4A89-A571-EF6326B1967F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glint", "Glint\Glint.csproj", "{C0C1F084-39D9-45E4-B8AB-4D39DA5975CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 	Debug|Any CPU = Debug|Any CPU
@@ -23,5 +25,11 @@ Global
 		{D64501FA-8A3F-4A89-A571-EF6326B1967F}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
 		{D64501FA-8A3F-4A89-A571-EF6326B1967F}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
 		{D64501FA-8A3F-4A89-A571-EF6326B1967F}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
+		{C0C1F084-39D9-45E4-B8AB-4D39DA5975CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0C1F084-39D9-45E4-B8AB-4D39DA5975CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0C1F084-39D9-45E4-B8AB-4D39DA5975CC}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0C1F084-39D9-45E4-B8AB-4D39DA5975CC}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{C0C1F084-39D9-45E4-B8AB-4D39DA5975CC}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0C1F084-39D9-45E4-B8AB-4D39DA5975CC}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal

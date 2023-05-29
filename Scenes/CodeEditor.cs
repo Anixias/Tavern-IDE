@@ -2,7 +2,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Godot;
-using GuildScript.Analysis.Text;
 
 namespace Tavern;
 
@@ -35,8 +34,6 @@ public partial class CodeEditor : CodeEdit
 		}
 	}
 
-	private Lexer lexer;
-
 	public override void _Ready()
 	{
 		if (Path is null)
@@ -53,7 +50,6 @@ public partial class CodeEditor : CodeEdit
 
 		ClearUndoHistory();
 		TagSavedVersion();
-		lexer = new Lexer(Text);
 	}
 
 	public void SaveChanges()
@@ -90,5 +86,11 @@ public partial class CodeEditor : CodeEdit
 			default:
 				return;
 		}
+	}
+
+	private void OnTextChanged()
+	{
+		SyntaxHighlighter?.ClearHighlightingCache();
+		SyntaxHighlighter?.UpdateCache();
 	}
 }
