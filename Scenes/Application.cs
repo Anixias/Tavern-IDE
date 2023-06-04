@@ -177,7 +177,8 @@ public partial class Application : Control
 		activeProject = project;
 		if (project is null)
 			return;
-		
+
+		fileSystemTree.Clear();
 		LoadDirectory(project.Directory);
 	}
 
@@ -219,6 +220,9 @@ public partial class Application : Control
 
 	private void AddFileToLanguageServer(string path)
 	{
+		if (fileServers.ContainsKey(path))
+			return;
+		
 		switch (Path.GetExtension(path))
 		{
 			case ".gs":

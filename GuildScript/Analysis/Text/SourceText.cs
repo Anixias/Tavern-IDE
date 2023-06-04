@@ -106,4 +106,16 @@ internal sealed class SourceText
     {
         return StringComparer.GetEditSequences(Text, target.Text);
     }
+
+    public int LineLength(int line)
+    {
+        if (line < 0 || line >= lineNumbers.Count)
+            return 0;
+
+        var lineStart = lineNumbers[line];
+        if (line == lineNumbers.Count - 1)
+            return Text.Length - lineStart;
+
+        return lineNumbers[line + 1] - lineStart;
+    }
 }

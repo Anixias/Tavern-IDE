@@ -34,7 +34,7 @@ public sealed class LanguageServer
 		if (codeFiles.ContainsKey(path))
 			return;
 		
-		var content = File.ReadAllText(path);
+		var content = File.ReadAllText(path).Replace("\r\n", "\n").Replace("\r", "\n");
 		var codeFile = new CodeFile(content);
 		codeFiles.Add(path, codeFile);
 	}
@@ -52,11 +52,8 @@ public sealed class LanguageServer
 		codeFiles.Remove(path);
 	}
 
-	public Token[] GetTokens(string path)
+	public IEnumerable<Token> GetTokens(string path)
 	{
-		if (!codeFiles.TryGetValue(path, out var codeFile))
-			return Array.Empty<Token>();
-
-		return codeFile.GetTokens();
+		return !codeFiles.TryGetValue(path, out var codeFile) ? Array.Empty<Token>() : codeFile.GetTokens();
 	}
 }

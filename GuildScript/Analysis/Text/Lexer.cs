@@ -1,4 +1,6 @@
-﻿namespace GuildScript.Analysis.Text;
+﻿using System.Text;
+
+namespace GuildScript.Analysis.Text;
 
 public sealed class Lexer
 {
@@ -8,6 +10,9 @@ public sealed class Lexer
 	private int currentPosition;
 	private int start;
 
+	private char Current => Peek();
+	private char Next => Peek(1);
+
 	public Lexer(string sourceText)
 	{
 		this.sourceText = new SourceText(sourceText);
@@ -16,7 +21,7 @@ public sealed class Lexer
 
 	private void LexAll()
 	{
-		LexSpan(0, sourceText.Text.Length + 1);
+		LexSpan(0, sourceText.Text.Length);
 	}
 
 	private void LexSpan(int startIndex, int length)
@@ -42,14 +47,347 @@ public sealed class Lexer
 			var character = sourceText.Text[currentPosition];
 			start = currentPosition;
 
+			if (ScanComment() is { } commentToken)
+			{
+				newTokens.Add(commentToken);
+				continue;
+			}
+
 			switch (character)
 			{
-				case ';':
-					newTokens.Add(ScanOperator(TokenType.Semicolon));
-					continue;
-				case '=':
-					newTokens.Add(ScanOperator(TokenType.Equals));
-					continue;
+				case '+':
+	                switch (Next)
+	                {
+	                    case '+':
+	                        newTokens.Add(ScanOperator(TokenType.PlusPlus, 2));
+	                        break;
+						case '=':
+							newTokens.Add(ScanOperator(TokenType.PlusEqual, 2));
+							break;
+	                    default:
+							newTokens.Add(ScanOperator(TokenType.Plus));
+	                        break;
+	                }
+	                break;
+	            case '-':
+	                switch (Next)
+	                {
+	                    case '-':
+							newTokens.Add(ScanOperator(TokenType.MinusMinus, 2));
+	                        break;
+	                    case '=':
+							newTokens.Add(ScanOperator(TokenType.MinusEqual, 2));
+	                        break;
+	                    case '>':
+	                        switch (Peek(2))
+	                        {
+	                            case '>':
+									newTokens.Add(ScanOperator(TokenType.RightArrowArrow, 3));
+	                                break;
+	                            default:
+									newTokens.Add(ScanOperator(TokenType.RightArrow, 2));
+	                                break;
+	                        }
+	                        break;
+	                    default:
+							newTokens.Add(ScanOperator(TokenType.Minus));
+	                        break;
+	                }
+	                break;
+	            case '*':
+	                switch (Next)
+	                {
+	                    case '=':
+							newTokens.Add(ScanOperator(TokenType.StarEqual, 2));
+	                        break;
+						case '*':
+							switch (Peek(2))
+							{
+								case '=':
+									newTokens.Add(ScanOperator(TokenType.StarStarEqual, 3));
+									break;
+								default:
+									newTokens.Add(ScanOperator(TokenType.StarStar, 2));
+									break;
+							}
+							break;
+	                    default:
+							newTokens.Add(ScanOperator(TokenType.Star));
+	                        break;
+	                }
+	                break;
+	            case '/':
+	                switch (Next)
+	                {
+	                    case '=':
+							newTokens.Add(ScanOperator(TokenType.SlashEqual, 2));
+	                        break;
+	                    default:
+							newTokens.Add(ScanOperator(TokenType.Slash));
+	                        break;
+	                }
+	                break;
+	            case '^':
+	                switch (Next)
+	                {
+	                    case '=':
+							newTokens.Add(ScanOperator(TokenType.CaretEqual, 2));
+	                        break;
+						case '^':
+							switch (Peek(2))
+							{
+								case '=':
+									newTokens.Add(ScanOperator(TokenType.CaretCaretEqual, 3));
+									break;
+								default:
+									newTokens.Add(ScanOperator(TokenType.CaretCaret, 2));
+									break;
+							}
+							break;
+	                    default:
+							newTokens.Add(ScanOperator(TokenType.Caret));
+	                        break;
+	                }
+	                break;
+	            case '&':
+	                switch (Next)
+	                {
+	                    case '=':
+	                        newTokens.Add(ScanOperator(TokenType.AmpEqual, 2));
+	                        break;
+						case '&':
+							switch (Peek(2))
+							{
+								case '=':
+									newTokens.Add(ScanOperator(TokenType.AmpAmpEqual, 3));
+									break;
+								default:
+									newTokens.Add(ScanOperator(TokenType.AmpAmp, 2));
+									break;
+							}
+							break;
+	                    default:
+	                        newTokens.Add(ScanOperator(TokenType.Amp));
+	                        break;
+	                }
+	                break;
+	            case '%':
+	                switch (Next)
+	                {
+	                    case '=':
+							newTokens.Add(ScanOperator(TokenType.PercentEqual, 2));
+	                        break;
+	                    default:
+	                        newTokens.Add(ScanOperator(TokenType.Percent));
+	                        break;
+	                }
+	                break;
+	            case '(':
+	                newTokens.Add(ScanOperator(TokenType.OpenParen));
+	                break;
+	            case ')':
+	                newTokens.Add(ScanOperator(TokenType.CloseParen));
+	                break;
+	            case '{':
+	                newTokens.Add(ScanOperator(TokenType.OpenBrace));
+	                break;
+	            case '}':
+	                newTokens.Add(ScanOperator(TokenType.CloseBrace));
+	                break;
+	            case '[':
+	                newTokens.Add(ScanOperator(TokenType.OpenSquare));
+	                break;
+	            case ']':
+	                newTokens.Add(ScanOperator(TokenType.CloseSquare));
+	                break;
+	            case ',':
+	                newTokens.Add(ScanOperator(TokenType.Comma));
+	                break;
+	            case '.':
+	                newTokens.Add(ScanOperator(TokenType.Dot));
+	                break;
+	            case ';':
+	                newTokens.Add(ScanOperator(TokenType.Semicolon));
+	                break;
+				case ':':
+					newTokens.Add(ScanOperator(TokenType.Colon));
+					break;
+				case '~':
+					newTokens.Add(ScanOperator(TokenType.Tilde));
+					break;
+	            case '<':
+	                switch (Next)
+	                {
+	                    case '|':
+	                        newTokens.Add(ScanOperator(TokenType.LeftTriangle, 2));
+	                        break;
+	                    case '=':
+	                        newTokens.Add(ScanOperator(TokenType.LeftAngledEqual, 2));
+	                        break;
+	                    case '-':
+	                        newTokens.Add(ScanOperator(TokenType.LeftArrow, 2));
+	                        break;
+	                    case '<':
+	                        switch (Peek(2))
+	                        {
+	                            case '-':
+	                                newTokens.Add(ScanOperator(TokenType.LeftArrowArrow, 3));
+	                                break;
+								case '=':
+									newTokens.Add(ScanOperator(TokenType.LeftLeftEqual, 3));
+									break;
+								case '<':
+									switch (Peek(3))
+									{
+										case '=':
+											newTokens.Add(ScanOperator(TokenType.LeftLeftLeftEqual, 4));
+											break;
+										default:
+											newTokens.Add(ScanOperator(TokenType.LeftAngled));
+											break;
+									}
+									break;
+	                            default:
+	                                newTokens.Add(ScanOperator(TokenType.LeftAngled));
+	                                break;
+	                        }
+	                        break;
+	                    default:
+	                        newTokens.Add(ScanOperator(TokenType.LeftAngled));
+	                        break;
+	                }
+	                break;
+	            case '>':
+	                switch (Next)
+	                {
+						case '>':
+							switch (Peek(2))
+							{
+								case '=':
+									newTokens.Add(ScanOperator(TokenType.RightRightEqual, 3));
+									break;
+								case '>':
+									switch (Peek(3))
+									{
+										case '=':
+											newTokens.Add(ScanOperator(TokenType.RightRightRightEqual, 4));
+											break;
+										default:
+											newTokens.Add(ScanOperator(TokenType.RightAngled));
+											break;
+									}
+									break;
+								default:
+									newTokens.Add(ScanOperator(TokenType.RightAngled));
+									break;
+							}
+							break;
+	                    case '=':
+	                        newTokens.Add(ScanOperator(TokenType.RightAngledEqual, 2));
+	                        break;
+	                    default:
+	                        newTokens.Add(ScanOperator(TokenType.RightAngled));
+	                        break;
+	                }
+	                break;
+	            case '!':
+	                switch (Next)
+	                {
+	                    case '=':
+	                        newTokens.Add(ScanOperator(TokenType.BangEqual, 2));
+	                        break;
+						case '.':
+							newTokens.Add(ScanOperator(TokenType.BangDot, 2));
+							break;
+	                    default:
+	                        newTokens.Add(ScanOperator(TokenType.Bang));
+	                        break;
+	                }
+	                break;
+	            case '=':
+	                switch (Next)
+	                {
+	                    case '=':
+	                        newTokens.Add(ScanOperator(TokenType.EqualEqual, 2));
+	                        break;
+	                    default:
+	                        newTokens.Add(ScanOperator(TokenType.Equal));
+	                        break;
+	                }
+	                break;
+	            case '|':
+	                switch (Next)
+	                {
+	                    case '>':
+	                        newTokens.Add(ScanOperator(TokenType.RightTriangle, 2));
+	                        break;
+						case '=':
+							newTokens.Add(ScanOperator(TokenType.PipeEqual, 2));
+							break;
+						case '|':
+							switch (Peek(2))
+							{
+								case '=':
+									newTokens.Add(ScanOperator(TokenType.PipePipeEqual, 3));
+									break;
+								default:
+									newTokens.Add(ScanOperator(TokenType.PipePipe, 2));
+									break;
+							}
+							break;
+						default:
+							newTokens.Add(ScanOperator(TokenType.Pipe));
+							break;
+	                }
+	                break;
+				case '?':
+					switch (Next)
+					{
+						case '?':
+							switch (Peek(2))
+							{
+								case '=':
+									newTokens.Add(ScanOperator(TokenType.QuestionQuestionEqual, 3));
+									break;
+								default:
+									newTokens.Add(ScanOperator(TokenType.QuestionQuestion, 2));
+									break;
+							}
+							break;
+						case '!':
+							switch (Peek(2))
+							{
+								case '=':
+									newTokens.Add(ScanOperator(TokenType.QuestionBangEqual, 3));
+									break;
+								default:
+									newTokens.Add(ScanOperator(TokenType.Question));
+									break;
+							}
+							break;
+						case '.':
+							newTokens.Add(ScanOperator(TokenType.QuestionDot, 2));
+							break;
+						case '=':
+							newTokens.Add(ScanOperator(TokenType.QuestionEqual, 2));
+							break;
+						case ':':
+							newTokens.Add(ScanOperator(TokenType.QuestionColon, 2));
+							break;
+						case '[':
+							newTokens.Add(ScanOperator(TokenType.QuestionOpenSquare, 2));
+							break;
+						default:
+							newTokens.Add(ScanOperator(TokenType.Question));
+							break;
+					}
+					break;
+	            case '"':
+					newTokens.Add(ScanString());
+	                break;
+	            case '\'':
+					newTokens.Add(ScanCharacter());
+	                break;
 				default:
 					if (char.IsWhiteSpace(character))
 					{
@@ -74,25 +412,358 @@ public sealed class Lexer
 			}
 		}
 		
-		if (tokenIndex >= 0)
-			tokens.InsertRange(tokenIndex, newTokens);
-		else
-			tokens.AddRange(newTokens);
+		tokens.InsertRange(tokenIndex, newTokens);
+	}
 
-		Console.WriteLine(tokenIndex);
+	private Token? ScanComment()
+	{
+		if (Current != '/')
+			return null;
+
+		switch (Next)
+		{
+			// Match double slash as line comment
+			case '/':
+			{
+				Advance();
+				Advance();
+
+				while (!EndOfFile)
+				{
+					if (Current is '\r' or '\n')
+						break;
+
+					Advance();
+				}
+
+				break;
+			}
+			// Match /* as a block comment */
+			case '*':
+			{
+				Advance();
+				Advance();
+			
+				var nestLevel = 1;
+				while (!EndOfFile)
+				{
+					if (Current == '*' && Next == '/')
+					{
+						nestLevel--;
+						Advance();
+						Advance();
+
+						if (nestLevel <= 0)
+							break;
+					}
+					else if (Current == '/' && Next == '*')
+					{
+						nestLevel++;
+						Advance();
+						Advance();
+						continue;
+					}
+
+					Advance();
+				}
+
+				break;
+			}
+			default:
+				return null;
+		}
+		
+		var length = currentPosition - start;
+		return new Token(TokenType.Comment, new TextSpan(start, length, sourceText),
+			sourceText.Text.Substring(start, length), null);
+	}
+
+	private Token ScanCharacter()
+	{
+		var escaped = false;
+		var stringBuilder = new StringBuilder();
+
+		while (!EndOfFile)
+		{
+			Advance();
+			
+			if (Current == '\n')
+			{
+				// @TODO Report an unclosed character error
+				break;
+			}
+
+			if (escaped)
+			{
+				escaped = false;
+				switch (Current)
+				{
+					case '\\':
+						stringBuilder.Append('\\');
+						break;
+					case 'n':
+						stringBuilder.Append('\n');
+						break;
+					case 'r':
+						stringBuilder.Append('\r');
+						break;
+					case 't':
+						stringBuilder.Append('\t');
+						break;
+					case '0':
+						stringBuilder.Append('\0');
+						break;
+					case 'v':
+						stringBuilder.Append('\v');
+						break;
+					case '"':
+						stringBuilder.Append('"');
+						break;
+					case '\'':
+						stringBuilder.Append('\'');
+						break;
+				}
+			}
+			else
+			{
+				if (Current == '\'')
+				{
+					Advance();
+					break;
+				}
+
+				if (Current == '\\')
+					escaped = !escaped;
+				else
+					stringBuilder.Append(Current);
+			}
+		}
+
+		var character = stringBuilder.ToString();
+		var value = character.Length > 0 ? character[0] : '\0';
+		var length = currentPosition - start;
+		var text = sourceText.Text.Substring(start, length);
+		var span = new TextSpan(start, length, sourceText);
+
+		if (text.Length != 1)
+		{
+			// Diagnostics.ReportLexerInvalidCharacterConstant(new TextSpan(start, Length, source), text);
+		}
+
+		return new Token(TokenType.CharacterConstant, span, text, value);
+	}
+
+	private Token ScanString()
+	{
+		var escaped = false;
+		var stringBuilder = new StringBuilder();
+
+		while (!EndOfFile)
+		{
+			Advance();
+
+			if (Current == '\n')
+			{
+				// @TODO Report an unclosed string error
+				break;
+			}
+
+			if (escaped)
+			{
+				escaped = false;
+				switch (Current)
+				{
+					case '\\':
+						stringBuilder.Append('\\');
+						break;
+					case 'n':
+						stringBuilder.Append('\n');
+						break;
+					case 'r':
+						stringBuilder.Append('\r');
+						break;
+					case 't':
+						stringBuilder.Append('\t');
+						break;
+					case '0':
+						stringBuilder.Append('\0');
+						break;
+					case 'v':
+						stringBuilder.Append('\v');
+						break;
+					case '"':
+						stringBuilder.Append('"');
+						break;
+					case '\'':
+						stringBuilder.Append('\'');
+						break;
+				}
+			}
+			else
+			{
+				if (Current == '"')
+				{
+					Advance();
+					break;
+				}
+
+				if (Current == '\\')
+					escaped = !escaped;
+				else
+					stringBuilder.Append(Current);
+			}
+		}
+
+		var value = stringBuilder.ToString();
+		var length = currentPosition - start;
+		var text = sourceText.Text.Substring(start, length);
+		var span = new TextSpan(start, length, sourceText);
+		return new Token(TokenType.StringConstant, span, text, value);
+	}
+
+	private char Advance()
+	{
+		var current = Current;
+		
+		if (!EndOfFile)
+			currentPosition++;
+
+		return current;
+	}
+
+	private char Peek(int offset = 0)
+	{
+		var index = currentPosition + offset;
+		return index >= sourceText.Text.Length ? '\0' : sourceText.Text[index];
 	}
 
 	private Token ScanNumber()
 	{
-		while (!EndOfFile && char.IsDigit(sourceText.Text[currentPosition]))
+		var type = TokenType.Int64Constant;
+		while (char.IsDigit(Current))
 		{
-			currentPosition++;
+			Advance();
 		}
-
+		
 		var length = currentPosition - start;
 		var text = sourceText.Text.Substring(start, length);
-		return new Token(TokenType.Int32Literal, new TextSpan(start, length, sourceText),
-			text, int.Parse(text));
+		object? value = null;
+
+		var literal = text;
+		switch (Current)
+		{
+			case 'i' or 'I':
+			{
+				Advance();
+				switch (Current)
+				{
+					case '8':
+						Advance();
+						type = TokenType.Int8Constant;
+						break;
+					case '1' when Peek(1) == '6':
+						Advance();
+						Advance();
+						type = TokenType.Int16Constant;
+						break;
+					case '3' when Peek(1) == '2':
+						Advance();
+						Advance();
+						type = TokenType.Int32Constant;
+						break;
+					case '6' when Peek(1) == '4':
+						Advance();
+						Advance();
+						type = TokenType.Int64Constant;
+						break;
+				}
+				
+				if (int.TryParse(literal, out var intValue))
+					value = intValue;
+				
+				break;
+			}
+			case 'u' or 'U':
+			{
+				Advance();
+				switch (Current)
+				{
+					case '8':
+						Advance();
+						type = TokenType.UInt8Constant;
+						break;
+					case '1' when Peek(1) == '6':
+						Advance();
+						Advance();
+						type = TokenType.UInt16Constant;
+						break;
+					case '3' when Peek(1) == '2':
+						Advance();
+						Advance();
+						type = TokenType.UInt32Constant;
+						break;
+					case '6' when Peek(1) == '4':
+						Advance();
+						Advance();
+						type = TokenType.UInt64Constant;
+						break;
+				}
+				
+				if (int.TryParse(literal, out var intValue))
+					value = intValue;
+				
+				break;
+			}
+			case '.':
+			{
+				type = TokenType.DoubleConstant;
+				Advance();
+			
+				while (char.IsDigit(Current))
+				{
+					Advance();
+				}
+
+				length = currentPosition - start;
+				text = sourceText.Text.Substring(start, length);
+				literal = text;
+
+				switch (Current)
+				{
+					case 's' or 'S':
+						Advance();
+						type = TokenType.SingleConstant;
+			
+						if (float.TryParse(literal, out var floatValue))
+							value = floatValue;
+						
+						break;
+					case 'd' or 'D':
+						Advance();
+						type = TokenType.DoubleConstant;
+			
+						if (double.TryParse(literal, out var doubleValue))
+							value = doubleValue;
+						
+						break;
+					default:
+						if (double.TryParse(literal, out var defaultDoubleValue))
+							value = defaultDoubleValue;
+						
+						break;
+				}
+				break;
+			}
+			default:
+			{
+				type = TokenType.Int64Constant;
+				if (int.TryParse(text, out var intValue))
+					value = intValue;
+				break;
+			}
+		}
+		
+		return new Token(type, new TextSpan(start, length, sourceText), text, value);
 	}
 
 	private Token ScanWhiteSpace()
@@ -115,8 +786,9 @@ public sealed class Lexer
 		}
 
 		var length = currentPosition - start;
-		return new Token(TokenType.Identifier, new TextSpan(start, length, sourceText),
-			sourceText.Text.Substring(start, length), null);
+		var text = sourceText.Text.Substring(start, length);
+		var type = Token.LookupIdentifier(text);
+		return new Token(type, new TextSpan(start, length, sourceText), text, null);
 	}
 
 	private Token ScanOperator(TokenType type, int length = 1)

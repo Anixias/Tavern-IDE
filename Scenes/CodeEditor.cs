@@ -21,7 +21,6 @@ public partial class CodeEditor : CodeEdit
 		{
 			tab = value;
 			
-			// Replace 4 spaces at start of lines with tabs, account for selection
 			switch (tab)
 			{
 				case EncodingManager.Tab.Tab:
@@ -57,10 +56,7 @@ public partial class CodeEditor : CodeEdit
 		TagSavedVersion();
 
 		var text = EncodingManager.ConvertEol(Text, EndOfLine);
-		
-		using var file = File.OpenWrite(Path);
-		file.Write(Encoding.GetBytes(text));
-		file.Flush();
+		File.WriteAllBytes(Path, Encoding.GetBytes(text));
 	}
 
 	private void OnGuiInput(InputEvent @event)
@@ -90,7 +86,37 @@ public partial class CodeEditor : CodeEdit
 
 	private void OnTextChanged()
 	{
-		SyntaxHighlighter?.ClearHighlightingCache();
-		SyntaxHighlighter?.UpdateCache();
+		SyntaxHighlighter?.CallDeferred(SyntaxHighlighter.MethodName.UpdateCache);
+		CallDeferred(CanvasItem.MethodName.QueueRedraw);
+	}
+
+	private void OnLinesEditedFrom(int lineFrom, int lineTo)
+	{
+		//SyntaxHighlighter?.CallDeferred(SyntaxHighlighter.MethodName.UpdateCache);
+		//CallDeferred(CanvasItem.MethodName.QueueRedraw);
+	}
+
+	public override void _Draw()
+	{
+		if (SyntaxHighlighter is not IRichSyntaxHighlighter richSyntaxHighlighter)
+			return;
+
+		var errors = richSyntaxHighlighter.GetErrors();
+		foreach (var error in errors)
+		{
+			for (var i = error.LineStart; i <= error.LineEnd; i++)
+			{
+				var lineLength = GetLine(i - 1).Length;
+				var columnStart = i == error.LineStart ? error.ColumnStart : 0;
+				var columnEnd = i == error.LineEnd ? error.ColumnEnd : lineLength;
+				SetLineBackgroundColor(i - 1, new Color(1.0f, 0.0f, 0.0f, 0.25f));
+
+				for (var j = columnStart; j <= columnEnd; j++)
+				{
+					var rect = GetRectAtLineColumn(i - 1, j - 1);
+					DrawDashedLine(new Vector2(rect.Position.X, rect.End.Y), new Vector2(rect.End.X, rect.End.Y), Colors.Red, 2.0f);
+				}
+			}
+		}
 	}
 }
