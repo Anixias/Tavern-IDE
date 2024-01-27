@@ -1,0 +1,165 @@
+2023-06-14 11:16:17.056 -04:00 [INF] ===== CQuence (0.0.1) =====
+2023-06-14 11:16:17.258 -04:00 [DBG] Finding descriptors for initialize
+2023-06-14 11:16:17.319 -04:00 [DBG] Queueing "Serial":initialize:1 request for processing
+2023-06-14 11:16:17.326 -04:00 [DBG] Starting: Processing request initialize 1
+2023-06-14 11:16:17.328 -04:00 [DBG] Starting: Routing Request (1) initialize
+2023-06-14 11:16:17.331 -04:00 [VRB] Converting params for Request (1) initialize to OmniSharp.Extensions.LanguageServer.Protocol.Models.InternalInitializeParams
+2023-06-14 11:16:17.332 -04:00 [VRB] Converting params for Notification initialize to OmniSharp.Extensions.LanguageServer.Protocol.Models.InternalInitializeParams
+2023-06-14 11:16:17.370 -04:00 [VRB] OnInitialize
+2023-06-14 11:16:19.415 -04:00 [VRB] OnInitialized
+2023-06-14 11:16:21.422 -04:00 [VRB] Response value was OmniSharp.Extensions.LanguageServer.Protocol.Models.InitializeResult
+2023-06-14 11:16:21.434 -04:00 [DBG] Finished: Routing Request (1) initialize in 4104ms
+2023-06-14 11:16:21.435 -04:00 [DBG] Finished: Processing request initialize 1 in 4107ms
+2023-06-14 11:16:21.460 -04:00 [DBG] Finding descriptors for initialized
+2023-06-14 11:16:21.461 -04:00 [DBG] Queueing "Serial":initialized request for processing
+2023-06-14 11:16:21.464 -04:00 [DBG] Starting: Processing notification initialized
+2023-06-14 11:16:21.465 -04:00 [DBG] Starting: Routing Notification initialized
+2023-06-14 11:16:21.465 -04:00 [VRB] Converting params for Notification initialized to OmniSharp.Extensions.LanguageServer.Protocol.Models.InitializedParams
+2023-06-14 11:16:21.487 -04:00 [DBG] Finished: Routing Notification initialized in 21ms
+2023-06-14 11:16:21.487 -04:00 [DBG] Finished: Processing notification initialized in 22ms
+2023-06-14 11:16:21.786 -04:00 [VRB] Could not write to output handler, perhaps serialization failed?
+System.Threading.Channels.ChannelClosedException: The channel has been closed.
+   at System.Threading.Channels.AsyncOperation`1.GetResult(Int16 token)
+   at OmniSharp.Extensions.JsonRpc.OutputHandler.ProcessOutputStream(CancellationToken cancellationToken)
+2023-06-14 11:18:40.801 -04:00 [INF] ===== CQuence (0.0.1) =====
+2023-06-14 11:18:41.232 -04:00 [DBG] Finding descriptors for initialize
+2023-06-14 11:18:41.291 -04:00 [DBG] Queueing "Serial":initialize:1 request for processing
+2023-06-14 11:18:41.298 -04:00 [DBG] Starting: Processing request initialize 1
+2023-06-14 11:18:41.301 -04:00 [DBG] Starting: Routing Request (1) initialize
+2023-06-14 11:18:41.303 -04:00 [VRB] Converting params for Request (1) initialize to OmniSharp.Extensions.LanguageServer.Protocol.Models.InternalInitializeParams
+2023-06-14 11:18:41.304 -04:00 [VRB] Converting params for Notification initialize to OmniSharp.Extensions.LanguageServer.Protocol.Models.InternalInitializeParams
+2023-06-14 11:18:41.338 -04:00 [VRB] OnInitialize
+2023-06-14 11:18:43.384 -04:00 [VRB] OnInitialized
+2023-06-14 11:18:45.395 -04:00 [VRB] Response value was OmniSharp.Extensions.LanguageServer.Protocol.Models.InitializeResult
+2023-06-14 11:18:45.405 -04:00 [DBG] Finished: Routing Request (1) initialize in 4103ms
+2023-06-14 11:18:45.406 -04:00 [DBG] Finished: Processing request initialize 1 in 4106ms
+2023-06-14 11:18:45.447 -04:00 [DBG] Finding descriptors for initialized
+2023-06-14 11:18:45.448 -04:00 [DBG] Queueing "Serial":initialized request for processing
+2023-06-14 11:18:45.451 -04:00 [DBG] Starting: Processing notification initialized
+2023-06-14 11:18:45.452 -04:00 [DBG] Starting: Routing Notification initialized
+2023-06-14 11:18:45.452 -04:00 [VRB] Converting params for Notification initialized to OmniSharp.Extensions.LanguageServer.Protocol.Models.InitializedParams
+2023-06-14 11:18:45.474 -04:00 [DBG] Finished: Routing Notification initialized in 21ms
+2023-06-14 11:18:45.474 -04:00 [DBG] Finished: Processing notification initialized in 23ms
+2023-06-14 11:18:45.475 -04:00 [DBG] Finding descriptors for workspace/didCreateFiles
+2023-06-14 11:18:45.478 -04:00 [DBG] Swapping from "Serial" to "Parallel"
+2023-06-14 11:18:45.478 -04:00 [DBG] Completing existing request process type "Serial"
+2023-06-14 11:18:45.480 -04:00 [DBG] Queueing "Parallel":workspace/didCreateFiles request for processing
+2023-06-14 11:18:45.480 -04:00 [DBG] Starting: Processing notification workspace/didCreateFiles
+2023-06-14 11:18:45.480 -04:00 [DBG] Starting: Routing Notification workspace/didCreateFiles
+2023-06-14 11:18:45.480 -04:00 [VRB] Converting params for Notification workspace/didCreateFiles to OmniSharp.Extensions.LanguageServer.Protocol.Models.DidCreateFileParams
+2023-06-14 11:18:45.482 -04:00 [INF] Create: "file:///C:/Users/colnu/OneDrive/Documents/CQuence/test.cq"
+2023-06-14 11:18:45.483 -04:00 [DBG] Finished: Routing Notification workspace/didCreateFiles in 3ms
+2023-06-14 11:18:45.483 -04:00 [DBG] Finished: Processing notification workspace/didCreateFiles in 3ms
+2023-06-14 11:18:47.281 -04:00 [DBG] Finding descriptors for workspace/didDeleteFiles
+2023-06-14 11:18:47.283 -04:00 [DBG] Queueing "Parallel":workspace/didDeleteFiles request for processing
+2023-06-14 11:18:47.283 -04:00 [DBG] Starting: Processing notification workspace/didDeleteFiles
+2023-06-14 11:18:47.283 -04:00 [DBG] Starting: Routing Notification workspace/didDeleteFiles
+2023-06-14 11:18:47.284 -04:00 [VRB] Converting params for Notification workspace/didDeleteFiles to OmniSharp.Extensions.LanguageServer.Protocol.Models.DidDeleteFileParams
+2023-06-14 11:18:47.285 -04:00 [INF] Delete: "file:///C:/Users/colnu/OneDrive/Documents/CQuence/test.cq"
+2023-06-14 11:18:47.285 -04:00 [DBG] Finished: Routing Notification workspace/didDeleteFiles in 1ms
+2023-06-14 11:18:47.285 -04:00 [DBG] Finished: Processing notification workspace/didDeleteFiles in 1ms
+2023-06-14 11:18:50.080 -04:00 [VRB] Could not write to output handler, perhaps serialization failed?
+System.Threading.Channels.ChannelClosedException: The channel has been closed.
+   at System.Threading.Channels.AsyncOperation`1.GetResult(Int16 token)
+   at OmniSharp.Extensions.JsonRpc.OutputHandler.ProcessOutputStream(CancellationToken cancellationToken)
+2023-06-14 11:39:56.473 -04:00 [INF] ===== CQuence (0.0.1) =====
+2023-06-14 11:39:56.937 -04:00 [DBG] Finding descriptors for initialize
+2023-06-14 11:39:56.998 -04:00 [DBG] Queueing "Serial":initialize:1 request for processing
+2023-06-14 11:39:57.006 -04:00 [DBG] Starting: Processing request initialize 1
+2023-06-14 11:39:57.009 -04:00 [DBG] Starting: Routing Request (1) initialize
+2023-06-14 11:39:57.011 -04:00 [VRB] Converting params for Request (1) initialize to OmniSharp.Extensions.LanguageServer.Protocol.Models.InternalInitializeParams
+2023-06-14 11:39:57.012 -04:00 [VRB] Converting params for Notification initialize to OmniSharp.Extensions.LanguageServer.Protocol.Models.InternalInitializeParams
+2023-06-14 11:39:57.048 -04:00 [VRB] OnInitialize
+2023-06-14 11:39:59.087 -04:00 [VRB] OnInitialized
+2023-06-14 11:40:01.104 -04:00 [VRB] Response value was OmniSharp.Extensions.LanguageServer.Protocol.Models.InitializeResult
+2023-06-14 11:40:01.114 -04:00 [DBG] Finished: Routing Request (1) initialize in 4105ms
+2023-06-14 11:40:01.115 -04:00 [DBG] Finished: Processing request initialize 1 in 4108ms
+2023-06-14 11:40:01.158 -04:00 [DBG] Finding descriptors for initialized
+2023-06-14 11:40:01.159 -04:00 [DBG] Queueing "Serial":initialized request for processing
+2023-06-14 11:40:01.161 -04:00 [DBG] Starting: Processing notification initialized
+2023-06-14 11:40:01.163 -04:00 [DBG] Starting: Routing Notification initialized
+2023-06-14 11:40:01.163 -04:00 [VRB] Converting params for Notification initialized to OmniSharp.Extensions.LanguageServer.Protocol.Models.InitializedParams
+2023-06-14 11:40:01.185 -04:00 [DBG] Finished: Routing Notification initialized in 22ms
+2023-06-14 11:40:01.186 -04:00 [DBG] Finished: Processing notification initialized in 23ms
+2023-06-14 11:40:19.884 -04:00 [VRB] Could not write to output handler, perhaps serialization failed?
+System.Threading.Channels.ChannelClosedException: The channel has been closed.
+   at System.Threading.Channels.AsyncOperation`1.GetResult(Int16 token)
+   at OmniSharp.Extensions.JsonRpc.OutputHandler.ProcessOutputStream(CancellationToken cancellationToken)
+2023-06-14 11:40:50.510 -04:00 [INF] ===== CQuence (0.0.1) =====
+2023-06-14 11:40:50.978 -04:00 [DBG] Finding descriptors for initialize
+2023-06-14 11:40:51.038 -04:00 [DBG] Queueing "Serial":initialize:1 request for processing
+2023-06-14 11:40:51.045 -04:00 [DBG] Starting: Processing request initialize 1
+2023-06-14 11:40:51.048 -04:00 [DBG] Starting: Routing Request (1) initialize
+2023-06-14 11:40:51.050 -04:00 [VRB] Converting params for Request (1) initialize to OmniSharp.Extensions.LanguageServer.Protocol.Models.InternalInitializeParams
+2023-06-14 11:40:51.051 -04:00 [VRB] Converting params for Notification initialize to OmniSharp.Extensions.LanguageServer.Protocol.Models.InternalInitializeParams
+2023-06-14 11:40:51.086 -04:00 [VRB] OnInitialize
+2023-06-14 11:40:53.126 -04:00 [VRB] OnInitialized
+2023-06-14 11:40:55.131 -04:00 [VRB] Response value was OmniSharp.Extensions.LanguageServer.Protocol.Models.InitializeResult
+2023-06-14 11:40:55.142 -04:00 [DBG] Finished: Routing Request (1) initialize in 4094ms
+2023-06-14 11:40:55.143 -04:00 [DBG] Finished: Processing request initialize 1 in 4096ms
+2023-06-14 11:40:55.185 -04:00 [DBG] Finding descriptors for initialized
+2023-06-14 11:40:55.186 -04:00 [DBG] Queueing "Serial":initialized request for processing
+2023-06-14 11:40:55.189 -04:00 [DBG] Starting: Processing notification initialized
+2023-06-14 11:40:55.190 -04:00 [DBG] Starting: Routing Notification initialized
+2023-06-14 11:40:55.190 -04:00 [VRB] Converting params for Notification initialized to OmniSharp.Extensions.LanguageServer.Protocol.Models.InitializedParams
+2023-06-14 11:40:55.213 -04:00 [DBG] Finished: Routing Notification initialized in 22ms
+2023-06-14 11:40:55.213 -04:00 [DBG] Finished: Processing notification initialized in 24ms
+2023-06-14 11:40:58.414 -04:00 [DBG] Finding descriptors for workspace/didCreateFiles
+2023-06-14 11:40:58.418 -04:00 [DBG] Swapping from "Serial" to "Parallel"
+2023-06-14 11:40:58.418 -04:00 [DBG] Completing existing request process type "Serial"
+2023-06-14 11:40:58.419 -04:00 [DBG] Queueing "Parallel":workspace/didCreateFiles request for processing
+2023-06-14 11:40:58.419 -04:00 [DBG] Starting: Processing notification workspace/didCreateFiles
+2023-06-14 11:40:58.420 -04:00 [DBG] Starting: Routing Notification workspace/didCreateFiles
+2023-06-14 11:40:58.420 -04:00 [VRB] Converting params for Notification workspace/didCreateFiles to OmniSharp.Extensions.LanguageServer.Protocol.Models.DidCreateFileParams
+2023-06-14 11:40:58.422 -04:00 [INF] Create: "file:///C:/Users/colnu/OneDrive/Documents/CQuence/test.cq"
+2023-06-14 11:40:58.423 -04:00 [DBG] Finished: Routing Notification workspace/didCreateFiles in 3ms
+2023-06-14 11:40:58.423 -04:00 [DBG] Finished: Processing notification workspace/didCreateFiles in 3ms
+2023-06-14 11:41:03.366 -04:00 [DBG] Finding descriptors for workspace/didDeleteFiles
+2023-06-14 11:41:03.369 -04:00 [DBG] Queueing "Parallel":workspace/didDeleteFiles request for processing
+2023-06-14 11:41:03.369 -04:00 [DBG] Starting: Processing notification workspace/didDeleteFiles
+2023-06-14 11:41:03.369 -04:00 [DBG] Starting: Routing Notification workspace/didDeleteFiles
+2023-06-14 11:41:03.369 -04:00 [VRB] Converting params for Notification workspace/didDeleteFiles to OmniSharp.Extensions.LanguageServer.Protocol.Models.DidDeleteFileParams
+2023-06-14 11:41:03.370 -04:00 [INF] Delete: "file:///C:/Users/colnu/OneDrive/Documents/CQuence/test.cq"
+2023-06-14 11:41:03.370 -04:00 [DBG] Finished: Routing Notification workspace/didDeleteFiles in 1ms
+2023-06-14 11:41:03.370 -04:00 [DBG] Finished: Processing notification workspace/didDeleteFiles in 1ms
+2023-06-14 11:41:14.854 -04:00 [VRB] Could not write to output handler, perhaps serialization failed?
+System.Threading.Channels.ChannelClosedException: The channel has been closed.
+   at System.Threading.Channels.AsyncOperation`1.GetResult(Int16 token)
+   at OmniSharp.Extensions.JsonRpc.OutputHandler.ProcessOutputStream(CancellationToken cancellationToken)
+2023-06-14 12:12:34.287 -04:00 [INF] ===== CQuence (0.0.1) =====
+2023-06-14 12:12:34.913 -04:00 [DBG] Finding descriptors for initialize
+2023-06-14 12:12:34.976 -04:00 [DBG] Queueing "Serial":initialize:1 request for processing
+2023-06-14 12:12:34.984 -04:00 [DBG] Starting: Processing request initialize 1
+2023-06-14 12:12:34.987 -04:00 [DBG] Starting: Routing Request (1) initialize
+2023-06-14 12:12:34.990 -04:00 [VRB] Converting params for Request (1) initialize to OmniSharp.Extensions.LanguageServer.Protocol.Models.InternalInitializeParams
+2023-06-14 12:12:34.990 -04:00 [VRB] Converting params for Notification initialize to OmniSharp.Extensions.LanguageServer.Protocol.Models.InternalInitializeParams
+2023-06-14 12:12:35.027 -04:00 [VRB] OnInitialize
+2023-06-14 12:12:37.073 -04:00 [DBG] OnInitialized
+2023-06-14 12:12:39.091 -04:00 [VRB] Response value was OmniSharp.Extensions.LanguageServer.Protocol.Models.InitializeResult
+2023-06-14 12:12:39.102 -04:00 [DBG] Finished: Routing Request (1) initialize in 4114ms
+2023-06-14 12:12:39.103 -04:00 [DBG] Finished: Processing request initialize 1 in 4117ms
+2023-06-14 12:12:39.151 -04:00 [DBG] Finding descriptors for initialized
+2023-06-14 12:12:39.152 -04:00 [DBG] Queueing "Serial":initialized request for processing
+2023-06-14 12:12:39.155 -04:00 [DBG] Starting: Processing notification initialized
+2023-06-14 12:12:39.156 -04:00 [DBG] Starting: Routing Notification initialized
+2023-06-14 12:12:39.156 -04:00 [VRB] Converting params for Notification initialized to OmniSharp.Extensions.LanguageServer.Protocol.Models.InitializedParams
+2023-06-14 12:12:39.178 -04:00 [DBG] Finished: Routing Notification initialized in 21ms
+2023-06-14 12:12:39.178 -04:00 [DBG] Finished: Processing notification initialized in 23ms
+2023-06-14 12:12:39.179 -04:00 [DBG] Finding descriptors for textDocument/didOpen
+2023-06-14 12:12:39.183 -04:00 [VRB] Created attribute cquence::file:///c:/Users/colnu/OneDrive/Documents/CQuence/main.cq
+2023-06-14 12:12:39.184 -04:00 [VRB] Looking for handler for descriptors textDocument/didOpen
+2023-06-14 12:12:39.184 -04:00 [VRB] Checking handler textDocument/didOpen:OmniSharp.Extensions.LanguageServer.Protocol.LanguageProtocolDelegatingHandlers+Notification`3[[OmniSharp.Extensions.LanguageServer.Protocol.Models.DidOpenTextDocumentParams, OmniSharp.Extensions.LanguageProtocol, Version=0.19.0.0, Culture=neutral, PublicKeyToken=6d868dff454e6022],[OmniSharp.Extensions.LanguageServer.Protocol.Models.TextDocumentOpenRegistrationOptions, OmniSharp.Extensions.LanguageProtocol, Version=0.19.0.0, Culture=neutral, PublicKeyToken=6d868dff454e6022],[OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities.SynchronizationCapability, OmniSharp.Extensions.LanguageProtocol, Version=0.19.0.0, Culture=neutral, PublicKeyToken=6d868dff454e6022]]
+2023-06-14 12:12:39.184 -04:00 [VRB] Registration options OmniSharp.Extensions.LanguageServer.Protocol.Models.TextDocumentOpenRegistrationOptions
+2023-06-14 12:12:39.184 -04:00 [VRB] Document Selector 
+2023-06-14 12:12:39.184 -04:00 [VRB] Handler Selected: OmniSharp.Extensions.LanguageServer.Protocol.LanguageProtocolDelegatingHandlers+Notification`3[[OmniSharp.Extensions.LanguageServer.Protocol.Models.DidOpenTextDocumentParams, OmniSharp.Extensions.LanguageProtocol, Version=0.19.0.0, Culture=neutral, PublicKeyToken=6d868dff454e6022],[OmniSharp.Extensions.LanguageServer.Protocol.Models.TextDocumentOpenRegistrationOptions, OmniSharp.Extensions.LanguageProtocol, Version=0.19.0.0, Culture=neutral, PublicKeyToken=6d868dff454e6022],[OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities.SynchronizationCapability, OmniSharp.Extensions.LanguageProtocol, Version=0.19.0.0, Culture=neutral, PublicKeyToken=6d868dff454e6022]] 00000000-0000-0000-0000-000000000000 via null (targeting OmniSharp.Extensions.JsonRpc.IJsonRpcNotificationHandler`1[[OmniSharp.Extensions.LanguageServer.Protocol.Models.DidOpenTextDocumentParams, OmniSharp.Extensions.LanguageProtocol, Version=0.19.0.0, Culture=neutral, PublicKeyToken=6d868dff454e6022]])
+2023-06-14 12:12:39.185 -04:00 [DBG] Queueing "Serial":textDocument/didOpen request for processing
+2023-06-14 12:12:39.185 -04:00 [DBG] Starting: Processing notification textDocument/didOpen
+2023-06-14 12:12:39.185 -04:00 [DBG] Starting: Routing Notification textDocument/didOpen
+2023-06-14 12:12:39.185 -04:00 [VRB] Converting params for Notification textDocument/didOpen to OmniSharp.Extensions.LanguageServer.Protocol.Models.DidOpenTextDocumentParams
+2023-06-14 12:12:39.188 -04:00 [DBG] Open: file:///c:/Users/colnu/OneDrive/Documents/CQuence/main.cq
+2023-06-14 12:12:39.189 -04:00 [DBG] Finished: Routing Notification textDocument/didOpen in 3ms
+2023-06-14 12:12:39.189 -04:00 [DBG] Finished: Processing notification textDocument/didOpen in 3ms
+2023-06-14 12:12:54.021 -04:00 [VRB] Could not write to output handler, perhaps serialization failed?
+System.Threading.Channels.ChannelClosedException: The channel has been closed.
+   at System.Threading.Channels.AsyncOperation`1.GetResult(Int16 token)
+   at OmniSharp.Extensions.JsonRpc.OutputHandler.ProcessOutputStream(CancellationToken cancellationToken)

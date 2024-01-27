@@ -157,7 +157,7 @@ internal static class StringComparer
     }
 
     public static IEnumerable<EditSequence> GetEditSequences(string source, string target,
-                                                  int insertCost = 1, int removeCost = 1, int editCost = 2)
+                                                  int insertCost = 1, int removeCost = 1, int editCost = 1)
     {
         var operations = GetEditOperations(source, target, insertCost, removeCost, editCost);
 

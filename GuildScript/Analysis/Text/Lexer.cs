@@ -28,10 +28,14 @@ public sealed class Lexer
 	{
 		var tokenIndex = GetTokenIndexAtPosition(startIndex);
 		var endTokenIndex = GetTokenIndexAtPosition(startIndex + length);
-		tokenIndex = 0;
-		endTokenIndex = tokens.Count - 1;
+		
 		if (tokenIndex >= 0 && endTokenIndex >= 0)
 			tokens.RemoveRange(tokenIndex, endTokenIndex - tokenIndex + 1);
+		else
+		{
+			tokenIndex = 0;
+			tokens.Clear();
+		}
 		
 		currentPosition = startIndex;
 		var newTokens = new List<Token>();
@@ -799,49 +803,70 @@ public sealed class Lexer
 
 	public void Lex(string text)
 	{
+		foreach (var token in tokens)
+		{
+			token.Category = "";
+			token.IsError = false;
+			token.ErrorMessage = "";
+		}
+		
 		var newSource = new SourceText(text);
 		//var editSequences = sourceText.GetDifference(newSource);
 		sourceText = newSource;
 		LexAll();
-		/*
-		Console.WriteLine("--------------------------");
-		
-		foreach (var editSequence in editSequences)
+
+		/*foreach (var editSequence in editSequences)
 		{
-			var editStart = editSequence.Start;
-			var editLength = editSequence.Operation == EditOperationKind.Add ? 0 : editSequence.Length;
-
-			var tokenStartIndex = GetTokenIndexBeforePosition(editStart);
-			var tokenEndIndex = GetTokenIndexAfterPosition(editStart + editLength);
-
-			if (tokenStartIndex >= 0 && tokenEndIndex >= 0)
+			switch (editSequence.Operation)
 			{
-				var tokenStart = tokens[Math.Max(0, tokenStartIndex - 1)];
-				var tokenEnd = tokens[Math.Min(tokens.Count - 1, tokenEndIndex + 1)];
-
-				editStart = Math.Min(editStart, tokenStart.Span.Start);
-				editLength = Math.Max(editSequence.Start + editSequence.Length, tokenEnd.Span.End) - editStart;
-			}
-			
-			for (var i = tokenEndIndex; i < tokens.Count; i++)
-			{
-				switch (editSequence.Operation)
+				case EditOperationKind.None:
+					continue;
+				case EditOperationKind.Edit:
 				{
-					case EditOperationKind.Add:
-						tokens[i].Span.Start += editSequence.Length;
-						break;
-					case EditOperationKind.Remove:
-						tokens[i].Span.Start -= editSequence.Length;
-						break;
+					// Re-lex from preceding token to succeeding token
+					var startIndex = GetTokenIndexBeforePosition(editSequence.Start);
+					var endIndex = GetTokenIndexAfterPosition(editSequence.End);
+
+					if (startIndex < 0 || endIndex < 0)
+						throw new Exception("Failed to find token indices for edit operation.");
+
+					var startToken = tokens[startIndex];
+					var endToken = tokens[endIndex];
+					
+					LexSpan(startToken.Span.Start, endToken.Span.End - startToken.Span.Start);
+					break;
+				}
+				case EditOperationKind.Add:
+				{
+					// Re-lex from preceding token to succeeding token, increment indices and spans of succeeding tokens
+					var startIndex = GetTokenIndexBeforePosition(editSequence.Start);
+					var endIndex = GetTokenIndexAfterPosition(editSequence.Start);
+
+					if (startIndex < 0 || endIndex < 0)
+						throw new Exception("Failed to find token indices for add operation.");
+
+					var startToken = tokens[startIndex];
+					var endToken = tokens[endIndex];
+					
+					Console.WriteLine("Start Index: " + $"({startIndex})");
+					Console.WriteLine("End Index: " + $"({endIndex})");
+
+					for (var i = endIndex; i < tokens.Count; i++)
+					{
+						var token = tokens[i];
+						token.Span.Start += editSequence.Length;
+						Console.WriteLine($"Incrementing ({token}) by {editSequence.Length}");
+					}
+					
+					LexSpan(startToken.Span.Start, endToken.Span.End - startToken.Span.Start + editSequence.Length);
+					break;
+				}
+				case EditOperationKind.Remove:
+				{
+					// Re-lex from preceding token to succeeding token, decrement indices and spans of succeeding tokens
+					break;
 				}
 			}
-			
-			LexSpan(editStart, editLength);
-		}
-		
-		foreach (var token in tokens)
-		{
-			Console.WriteLine(token.Type + ": " + token.Text + $" ({token.Span.Start}-{token.Span.End})");
 		}*/
 	}
 
@@ -861,10 +886,10 @@ public sealed class Lexer
 			var mid = left + (right - left) / 2;
 			var token = tokens[mid];
 
-			if (token.Span.Start <= position && position <= token.Span.End)
+			if (token.Span.Start <= position && position < token.Span.End)
 				return mid;
 
-			if (token.Span.End < position)
+			if (token.Span.End <= position)
 				left = mid + 1;
 			else
 				right = mid - 1;

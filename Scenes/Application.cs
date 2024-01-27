@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Godot;
 using GuildScript;
 using FileAccess = Godot.FileAccess;
@@ -43,6 +45,7 @@ public partial class Application : Control
 
 	private Texture2D iconFile;
 	private Texture2D iconFileGuildScript;
+	private Texture2D iconFileCQuence;
 	private Texture2D iconFolderOpen;
 	private Texture2D iconFolderClosed;
 	private Button createFileButton;
@@ -82,6 +85,7 @@ public partial class Application : Control
 		codeEditorScene = ResourceLoader.Load<PackedScene>("res://Scenes/CodeEditor.tscn");
 		iconFile = ResourceLoader.Load<Texture2D>("res://Assets/Icons/file.svg");
 		iconFileGuildScript = ResourceLoader.Load<Texture2D>("res://Assets/Icons/GuildScriptOutline.svg");
+		iconFileCQuence = ResourceLoader.Load<Texture2D>("res://Assets/Icons/CQ_logo_wireframe.svg");
 		iconFolderOpen = ResourceLoader.Load<Texture2D>("res://Assets/Icons/folder-open.svg");
 		iconFolderClosed = ResourceLoader.Load<Texture2D>("res://Assets/Icons/folder.svg");
 	}
@@ -131,6 +135,16 @@ public partial class Application : Control
 		
 		// @TODO Detect file info
 		fileInfoContainer.Visible = true;
+		var content = File.ReadAllText(path);
+		var languageId = path.GetExtension() switch
+		{
+			"cs" => "csharp",
+			"cq" => "cquence",
+			"gs" => "guildscript",
+			_ => "text"
+		};
+
+		LanguageClientManager.DidOpen(path, content, languageId);
 	}
 
 	private SyntaxHighlighter CreateSyntaxHighlighter(string path)
@@ -164,7 +178,7 @@ public partial class Application : Control
 		tabOptionButton.Selected = (int)codeEditor.Tab;
 	}
 
-	public async void LoadProject(Project project)
+	public async Task LoadProjectAsync(Project project)
 	{
 		if (!IsNodeReady())
 		{
@@ -173,13 +187,17 @@ public partial class Application : Control
 
 		fileSystemTree.Clear();
 		treeItems.Clear();
-		
+
+		var hadProject = activeProject is not null;
 		activeProject = project;
 		if (project is null)
 			return;
 
 		fileSystemTree.Clear();
 		LoadDirectory(project.Directory);
+		
+		if (!hadProject)
+			await LanguageClientManager.InitializeAsync(project.Directory, new CancellationToken());
 	}
 
 	private void LoadDirectory(string directory, TreeItem parent = null)
@@ -245,6 +263,7 @@ public partial class Application : Control
 		return extension switch
 		{
 			".gs" => iconFileGuildScript,
+			".cq" => iconFileCQuence,
 			_ => iconFile
 		};
 	}
@@ -414,7 +433,7 @@ public partial class Application : Control
 		createFileWindow.PopupCentered();
 	}
 
-	private void OnCreateFileWindowSubmitted(string path)
+	private async void OnCreateFileWindowSubmitted(string path)
 	{
 		using (FileAccess.Open(path, FileAccess.ModeFlags.Write))
 		{
@@ -423,7 +442,8 @@ public partial class Application : Control
 		
 		// @TODO Load file template
 		
-		ReloadProject();
+		LanguageClientManager.DidCreate(path);
+		await ReloadProject();
 		OpenFile(path);
 		
 		foreach (var item in treeItems)
@@ -452,13 +472,13 @@ public partial class Application : Control
 		createFolderWindow.PopupCentered();
 	}
 
-	private void OnCreateFolderWindowSubmitted(string path)
+	private async void OnCreateFolderWindowSubmitted(string path)
 	{
 		Directory.CreateDirectory(path);
-		ReloadProject();
+		await ReloadProject();
 	}
 
-	private void ReloadProject()
+	private async Task ReloadProject()
 	{
 		var collapsedStates = new Dictionary<string, bool>();
 		string selectedPath = null;
@@ -472,7 +492,7 @@ public partial class Application : Control
 				selectedPath = path;
 		}
 		
-		LoadProject(activeProject);
+		await LoadProjectAsync(activeProject);
 
 		TreeItem selectedItem = null;
 		foreach (var item in treeItems)
@@ -537,20 +557,26 @@ public partial class Application : Control
 		deleteFile = false;
 	}
 
-	private void OnDeleteConfirmationDialogConfirmed()
+	private async void OnDeleteConfirmationDialogConfirmed()
 	{
-		var openEditor = openFiles[deletePath];
-		RemoveTab(openEditor.TabIndex);
-		
+		if (openFiles.TryGetValue(deletePath, out var openFile))
+		{
+			RemoveTab(openFile.TabIndex);
+			openFiles.Remove(deletePath);
+		}
+
 		if (deleteFile)
+		{
 			File.Delete(deletePath);
+			LanguageClientManager.DidDelete(deletePath);
+		}
 		else
 			Directory.Delete(deletePath);
 		
 		deletePath = null;
 		deleteFile = false;
 		
-		ReloadProject();
+		await ReloadProject();
 	}
 
 	private void OnFolderContextMenuAddSubmenuIndexPressed(int index)

@@ -167,7 +167,6 @@ public enum TokenType
 	String,
 	Char,
 	Object
-	
 }
 
 public sealed class Token
@@ -176,7 +175,15 @@ public sealed class Token
 	public TextSpan Span { get; }
 	public string Text { get; }
 	public object? Value { get; }
-	
+	public string Category { get; set; } = "";
+	public string ErrorMessage { get; set; } = "";
+	public bool IsError { get; set; }
+
+	public override string ToString()
+	{
+		return $"{Type}: '{Text.Replace("\n", "\\n").Replace("\t", "\\t")}'";
+	}
+
 	internal Token(TokenType type, TextSpan span, string text, object? value)
 	{
 		Type = type;

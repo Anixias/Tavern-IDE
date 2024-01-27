@@ -18,7 +18,19 @@ public struct TextSpan
 	public int ColumnEnd { get; }
 }
 
+public struct Error
+{
+	public TextSpan Span { get; }
+	public string Message { get; }
+	
+	public Error(TextSpan span, string message)
+	{
+		Span = span;
+		Message = message;
+	}
+}
+
 public interface IRichSyntaxHighlighter
 {
-	IEnumerable<TextSpan> GetErrors();
+	IEnumerable<Error> GetErrors();
 }

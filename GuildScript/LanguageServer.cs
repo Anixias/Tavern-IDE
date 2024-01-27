@@ -1,4 +1,5 @@
-﻿using GuildScript.Analysis.Text;
+﻿using GuildScript.Analysis.Syntax;
+using GuildScript.Analysis.Text;
 
 namespace GuildScript;
 
@@ -7,10 +8,12 @@ public sealed class LanguageServer
 	private class CodeFile
 	{
 		private readonly Lexer lexer;
+		private readonly Parser parser;
 
 		public CodeFile(string source)
 		{
 			lexer = new Lexer(source);
+			parser = new Parser(lexer);
 		}
 
 		public void UpdateSource(string content)
@@ -21,6 +24,11 @@ public sealed class LanguageServer
 		public Token[] GetTokens()
 		{
 			return lexer.GetTokens();
+		}
+
+		public SyntaxNode? Parse()
+		{
+			return parser.Parse();
 		}
 	}
 	
@@ -55,5 +63,10 @@ public sealed class LanguageServer
 	public IEnumerable<Token> GetTokens(string path)
 	{
 		return !codeFiles.TryGetValue(path, out var codeFile) ? Array.Empty<Token>() : codeFile.GetTokens();
+	}
+
+	public SyntaxNode? Parse(string path)
+	{
+		return !codeFiles.TryGetValue(path, out var codeFile) ? null : codeFile.Parse();
 	}
 }

@@ -1,0 +1,33 @@
+2023-06-14 11:16:10.693 -04:00 [INF] ===== CQuence (0.0.1) =====
+2023-06-14 11:16:10.891 -04:00 [DBG] Finding descriptors for initialize
+2023-06-14 11:16:10.950 -04:00 [DBG] Queueing "Serial":initialize:1 request for processing
+2023-06-14 11:16:10.958 -04:00 [DBG] Starting: Processing request initialize 1
+2023-06-14 11:16:10.961 -04:00 [DBG] Starting: Routing Request (1) initialize
+2023-06-14 11:16:10.963 -04:00 [VRB] Converting params for Request (1) initialize to OmniSharp.Extensions.LanguageServer.Protocol.Models.InternalInitializeParams
+2023-06-14 11:16:10.964 -04:00 [VRB] Converting params for Notification initialize to OmniSharp.Extensions.LanguageServer.Protocol.Models.InternalInitializeParams
+2023-06-14 11:16:11.010 -04:00 [VRB] OnInitialize
+2023-06-14 11:16:13.057 -04:00 [VRB] OnInitialized
+2023-06-14 11:16:15.065 -04:00 [VRB] Response value was OmniSharp.Extensions.LanguageServer.Protocol.Models.InitializeResult
+2023-06-14 11:16:15.076 -04:00 [DBG] Finished: Routing Request (1) initialize in 4115ms
+2023-06-14 11:16:15.077 -04:00 [DBG] Finished: Processing request initialize 1 in 4118ms
+2023-06-14 11:16:15.103 -04:00 [DBG] Finding descriptors for initialized
+2023-06-14 11:16:15.104 -04:00 [DBG] Queueing "Serial":initialized request for processing
+2023-06-14 11:16:15.106 -04:00 [DBG] Starting: Processing notification initialized
+2023-06-14 11:16:15.108 -04:00 [DBG] Starting: Routing Notification initialized
+2023-06-14 11:16:15.108 -04:00 [VRB] Converting params for Notification initialized to OmniSharp.Extensions.LanguageServer.Protocol.Models.InitializedParams
+2023-06-14 11:16:15.130 -04:00 [DBG] Finished: Routing Notification initialized in 21ms
+2023-06-14 11:16:15.130 -04:00 [DBG] Finished: Processing notification initialized in 23ms
+2023-06-14 11:16:16.985 -04:00 [DBG] Finding descriptors for workspace/didDeleteFiles
+2023-06-14 11:16:16.988 -04:00 [DBG] Swapping from "Serial" to "Parallel"
+2023-06-14 11:16:16.988 -04:00 [DBG] Completing existing request process type "Serial"
+2023-06-14 11:16:16.990 -04:00 [DBG] Queueing "Parallel":workspace/didDeleteFiles request for processing
+2023-06-14 11:16:16.990 -04:00 [DBG] Starting: Processing notification workspace/didDeleteFiles
+2023-06-14 11:16:16.990 -04:00 [DBG] Starting: Routing Notification workspace/didDeleteFiles
+2023-06-14 11:16:16.990 -04:00 [VRB] Converting params for Notification workspace/didDeleteFiles to OmniSharp.Extensions.LanguageServer.Protocol.Models.DidDeleteFileParams
+2023-06-14 11:16:16.993 -04:00 [INF] Delete: "file:///C:/Users/colnu/OneDrive/Documents/CQuence/test.cq"
+2023-06-14 11:16:16.994 -04:00 [DBG] Finished: Routing Notification workspace/didDeleteFiles in 3ms
+2023-06-14 11:16:16.994 -04:00 [DBG] Finished: Processing notification workspace/didDeleteFiles in 3ms
+2023-06-14 11:16:21.785 -04:00 [VRB] Could not write to output handler, perhaps serialization failed?
+System.Threading.Channels.ChannelClosedException: The channel has been closed.
+   at System.Threading.Channels.AsyncOperation`1.GetResult(Int16 token)
+   at OmniSharp.Extensions.JsonRpc.OutputHandler.ProcessOutputStream(CancellationToken cancellationToken)

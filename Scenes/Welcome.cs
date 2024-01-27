@@ -53,11 +53,19 @@ public partial class Welcome : Control
 		
 		using var file = FileAccess.Open(RecentProjectsPath, FileAccess.ModeFlags.Read);
 		var count = file.Get64();
+		var projects = new List<Project>();
 		while (count-- > 0)
 		{
 			var name = file.GetPascalString();
 			var directory = file.GetPascalString();
-			AppendRecentProject(new Project(name, directory));
+			projects.Add(new Project(name, directory));
+		}
+
+		projects.Reverse();
+
+		foreach (var project in projects)
+		{
+			AppendRecentProject(project);
 		}
 	}
 
@@ -99,7 +107,7 @@ public partial class Welcome : Control
 	{
 		var applicationScene = ResourceLoader.Load<PackedScene>("res://Scenes/Application.tscn");
 		var application = applicationScene.Instantiate<Application>();
-		application.LoadProject(project);
+		application.LoadProjectAsync(project);
 		AppendRecentProject(project);
 
 		Hide();

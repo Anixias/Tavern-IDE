@@ -30,7 +30,7 @@ public sealed class TextSpan : IEnumerable<int>
 
 	public IEnumerator<int> GetEnumerator()
 	{
-		for (var i = Start; i <= End; i++)
+		for (var i = Start; i < End; i++)
 		{
 			yield return i;
 		}

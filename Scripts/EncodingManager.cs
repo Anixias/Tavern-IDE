@@ -34,18 +34,20 @@ public static class EncodingManager
         var containsLF = contentWithoutCRLF.Contains(lf);
         var containsCR = contentWithoutCRLF.Contains(cr);
 
-        if (containsCRLF && containsLF && containsCR)
-            return EndOfLine.Mixed;
-        
-        if (containsCRLF)
-            return EndOfLine.CRLF;
-        
+        switch (containsCRLF)
+        {
+            case true when containsLF && containsCR:
+                return EndOfLine.Mixed;
+            case true:
+                return EndOfLine.CRLF;
+        }
+
         if (containsLF)
             return EndOfLine.LF;
         
         if (containsCR)
             return EndOfLine.CR;
-        
+
         #if GODOT_WINDOWS
         return EndOfLine.CRLF;
         #elif GODOT_LINUX

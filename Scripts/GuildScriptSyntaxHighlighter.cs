@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Godot;
 using Godot.Collections;
 using GuildScript;
+using GuildScript.Analysis.Syntax;
 using GuildScript.Analysis.Text;
 
 namespace Tavern;
@@ -17,6 +18,7 @@ public partial class GuildScriptSyntaxHighlighter : SyntaxHighlighter, IRichSynt
 		{ "string", Color.Color8(241, 250, 140) },
 		{ "parameter", Color.Color8(255, 184, 108) },
 		{ "method", Color.Color8(80, 250, 123) },
+		{ "module", Color.Color8(139, 233, 253) },
 		{ "class", Color.Color8(139, 233, 253) },
 		{ "struct", Color.Color8(241, 250, 140) },
 		{ "interface", Color.Color8(189, 147, 249) },
@@ -36,6 +38,8 @@ public partial class GuildScriptSyntaxHighlighter : SyntaxHighlighter, IRichSynt
 	public string Path { get; }
 	private readonly LanguageServer languageServer;
 	private readonly List<Token> tokens = new();
+	private readonly List<Error> errors = new();
+	private SyntaxNode parseTree;
 
 	public GuildScriptSyntaxHighlighter(string path, LanguageServer languageServer)
 	{
@@ -45,12 +49,41 @@ public partial class GuildScriptSyntaxHighlighter : SyntaxHighlighter, IRichSynt
 
 	public override Dictionary _GetLineSyntaxHighlighting(int line)
 	{
+		var braceIndex = 0;
+		var braceColors = new System.Collections.Generic.Dictionary<Token, Color>();
 		var highlighting = new Dictionary();
 		var startToken = tokens.Count;
 		var endToken = -1;
 		for (var i = 0; i < tokens.Count; i++)
 		{
 			var token = tokens[i];
+			if (token.IsError)
+				errors.Add(new Error(
+					new TextSpan(token.Span.LineStart, token.Span.LineEnd, token.Span.ColumnStart,
+						token.Span.ColumnEnd), token.ErrorMessage));
+
+			switch (token.Type)
+			{
+				case TokenType.OpenParen:
+				case TokenType.OpenBrace:
+				case TokenType.OpenSquare:
+				{
+					var index = braceIndex++ % BraceColors.Length;
+					if (index >= 0)
+						braceColors[token] = BraceColors[index];
+					break;
+				}
+				case TokenType.CloseParen:
+				case TokenType.CloseBrace:
+				case TokenType.CloseSquare:
+				{
+					var index = --braceIndex % BraceColors.Length;
+					if (index >= 0)
+						braceColors[token] = BraceColors[index];
+					break;
+				}
+			}
+			
 			if (!token.Span.ContainsLine(line + 1))
 				continue;
 			
@@ -171,6 +204,18 @@ public partial class GuildScriptSyntaxHighlighter : SyntaxHighlighter, IRichSynt
 				case TokenType.Identifier:
 				default:
 					color = Colors.White;
+					
+					if (braceColors.TryGetValue(token, out var braceColor))
+					{
+						color = braceColor;
+					}
+					else if (!string.IsNullOrWhiteSpace(token.Category))
+					{
+						if (ColorDefinitions.TryGetValue(token.Category, out var categoryColor))
+						{
+							color = categoryColor;
+						}
+					}
 					break;
 			}
 
@@ -186,15 +231,17 @@ public partial class GuildScriptSyntaxHighlighter : SyntaxHighlighter, IRichSynt
 	public override void _ClearHighlightingCache()
 	{
 		tokens.Clear();
+		errors.Clear();
 	}
 
 	public override void _UpdateCache()
 	{
 		tokens.AddRange(languageServer.GetTokens(Path));
+		parseTree = languageServer.Parse(Path);
 	}
 
-	public IEnumerable<TextSpan> GetErrors()
+	public IEnumerable<Error> GetErrors()
 	{
-		yield break;
+		return errors;
 	}
 }
